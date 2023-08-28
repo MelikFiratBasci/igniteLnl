@@ -48,6 +48,7 @@ const config = {
         DemoPodcastList: "podcast",
         DemoCommunity: "community",
         LnlHome : "lnlHome",
+        LnlDebug : "lnlDebug",
       },
     },
   },

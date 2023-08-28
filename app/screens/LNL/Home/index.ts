@@ -1,4 +1,4 @@
-export * from "./WelcomeScreen"
+export * from "./HomeScreen"
 
 
 // @demo remove-file
