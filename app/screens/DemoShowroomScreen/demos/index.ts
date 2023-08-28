@@ -1,4 +1,4 @@
-export * from "../../LNLdemos/WelcomeScreen"
+export * from "./DemoIcon"
 export * from "./DemoTextField"
 export * from "./DemoToggle"
 export * from "./DemoButton"

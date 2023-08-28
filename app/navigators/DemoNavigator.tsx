@@ -9,13 +9,15 @@ import { DemoCommunityScreen, DemoShowroomScreen, DemoDebugScreen } from "../scr
 import { DemoPodcastListScreen } from "../screens/DemoPodcastListScreen"
 import { colors, spacing, typography } from "../theme"
 import { AppStackParamList, AppStackScreenProps } from "./AppNavigator"
+import { LNLHomeScreen } from "app/screens/LNL/HomeScreen"
 
 export type DemoTabParamList = {
   DemoCommunity: undefined
   DemoShowroom: { queryIndex?: string; itemIndex?: string }
   DemoDebug: undefined
   DemoPodcastList: undefined
-  LnlHome : undefined
+  LnlHome: { queryIndex?: string; itemIndex?: string }
+
 }
 
 /**
@@ -91,9 +93,9 @@ export function DemoNavigator() {
       />
       <Tab.Screen
         name="LnlHome"
-        component={DemoShowroomScreen}
+        component={LNLHomeScreen}
         options={{
-          tabBarLabel: "Lnl home",
+          tabBarLabel: "Lnl Home",
           tabBarIcon: ({ focused }) => (
             <Icon icon="pin" color={focused && colors.tint} size={30} />
           ),
