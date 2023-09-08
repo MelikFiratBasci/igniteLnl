@@ -10,16 +10,17 @@ import { DemoPodcastListScreen } from "../screens/DemoPodcastListScreen"
 import { colors, spacing, typography } from "../theme"
 import { AppStackParamList, AppStackScreenProps } from "./AppNavigator"
 import { LNLHomeScreen } from "app/screens/LNL/HomeScreen"
-import {LnlDebugScreen} from "app/screens/LNL/DebugScreen/LNLDebugScreen"
-
+import {LnlDebugScreen} from "app/screens/LNL/LNLDebugScreen"
+import DrawerNavigator from "./DrawerNavigator"
 
 export type DemoTabParamList = {
   DemoCommunity: undefined
   DemoShowroom: { queryIndex?: string; itemIndex?: string }
   DemoDebug: undefined
   DemoPodcastList: undefined
-  LnlHome: { queryIndex?: string; itemIndex?: string }
   LnlDebug : undefined
+  TesterScreen:undefined
+  DrawerNavigator : undefined
 
 }
 
@@ -50,6 +51,17 @@ export function DemoNavigator() {
         tabBarItemStyle: $tabBarItem,
       }}
     >
+      
+      <Tab.Screen
+        name="DrawerNavigator"
+        component={DrawerNavigator}
+        options={{
+          tabBarLabel: "Drawer Home",
+          tabBarIcon: ({ focused }) => (
+            <Icon icon="components" color={focused && colors.tint} size={30} />
+          ),
+        }}
+      />
       <Tab.Screen
         name="DemoShowroom"
         component={DemoShowroomScreen}
@@ -94,16 +106,7 @@ export function DemoNavigator() {
           ),
         }}
       />
-      <Tab.Screen
-        name="LnlHome"
-        component={LNLHomeScreen}
-        options={{
-          tabBarLabel: "Lnl Home",
-          tabBarIcon: ({ focused }) => (
-            <Icon icon="pin" color={focused && colors.tint} size={30} />
-          ),
-        }}
-      />
+   
       <Tab.Screen
         name="LnlDebug"
         component={LnlDebugScreen}
@@ -136,3 +139,15 @@ const $tabBarLabel: TextStyle = {
 }
 
 // @demo remove-file
+/*
+   <Tab.Screen
+        name="LnlHome"
+        component={LNLHomeScreen}
+        options={{
+          tabBarLabel: "Lnl Home",
+          tabBarIcon: ({ focused }) => (
+            <Icon icon="pin" color={focused && colors.tint} size={30} />
+          ),
+        }}
+      />
+*/

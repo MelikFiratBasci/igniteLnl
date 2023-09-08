@@ -7,5 +7,6 @@ export * from "./DemoShowroomScreen/DemoShowroomScreen"
 // @demo remove-block-end
 export * from "./ErrorScreen/ErrorBoundary"
 // export other screens here
-export * from "./LNL/Home/HomeScreen"
-export * from "./LNL/DebugScreen/LNLDebugScreen"
+export * from "./LNL/Home/IconScreen"
+export * from "./LNL/LNLDebugScreen"
+export * from "./LNL/TesterScreen"

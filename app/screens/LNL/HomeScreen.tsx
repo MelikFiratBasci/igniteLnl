@@ -163,7 +163,7 @@ export const LNLHomeScreen: FC<DemoTabScreenProps<"DemoShowroom">> =
       <DrawerLayout
         ref={drawerRef}
         drawerWidth={Platform.select({ default: 326, web: Dimensions.get("window").width * 0.3 })}
-        drawerType={"slide"}
+        drawerType={"back"}
         drawerPosition={isRTL ? "right" : "left"}
         overlayColor={open ? colors.palette.overlay20 : "transparent"}
         onDrawerSlide={(drawerProgress) => {

@@ -20,6 +20,7 @@ import { useStores } from "../models" // @demo remove-current-line
 import { DemoNavigator, DemoTabParamList } from "./DemoNavigator" // @demo remove-current-line
 import { navigationRef, useBackButtonHandler } from "./navigationUtilities"
 import { colors } from "app/theme"
+import DrawerNavigator from "./DrawerNavigator"
 
 /**
  * This type allows TypeScript to know what routes are defined in this navigator
@@ -84,7 +85,6 @@ const AppStack = observer(function AppStack() {
       )}
       {/* @demo remove-block-end */}
       {/** 🔥 Your screens go here */}
-      <Stack.Screen name="Debug" component={Screens.LnlDebugScreen} />
 
       {/* IGNITE_GENERATOR_ANCHOR_APP_STACK_SCREENS */}
     </Stack.Navigator>

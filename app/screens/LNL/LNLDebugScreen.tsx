@@ -1,11 +1,11 @@
 import React, { FC } from "react"
 import * as Application from "expo-application"
 import { Linking, Platform, TextStyle, View, ViewStyle, TouchableOpacity } from "react-native"
-import { Button, ListItem, Screen, Text } from "../../../components"
-import { DemoTabScreenProps } from "../../../navigators/DemoNavigator"
-import { colors, spacing } from "../../../theme"
-import { isRTL } from "../../../i18n"
-import { useStores } from "../../../models"
+import { Button, ListItem, Screen, Text } from "../../components"
+import { DemoTabScreenProps } from "../../navigators/DemoNavigator"
+import { colors, spacing } from "../../theme"
+import { isRTL } from "../../i18n"
+import { useStores } from "../../models"
 
 
 function openLinkInBrowser(url: string) {
@@ -22,7 +22,7 @@ export const LnlDebugScreen: FC<DemoTabScreenProps<"LnlDebug">> = function LnlDe
   
 
   function goHome() {
-    navigation.navigate("LnlHome", { screen: "LNLHomeScreen" })
+    navigation.navigate("Debug")
   }
   const usingHermes = typeof HermesInternal === "object" && HermesInternal !== null
 
