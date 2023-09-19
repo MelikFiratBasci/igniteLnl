@@ -55,6 +55,7 @@
     "expo-linking": "~4.0.1",
     "expo-localization": "~14.1.1",
     "expo-modules-core": "~1.2.3",
+    "expo-permissions": "^14.4.0",
     "expo-splash-screen": "~0.18.1",
     "expo-status-bar": "~1.4.4",
     "i18n-js": "3.9.2",

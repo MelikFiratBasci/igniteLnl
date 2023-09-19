@@ -22,7 +22,8 @@ import { useDispatch } from "react-redux"
 import { addProduct } from "../../../../store/index"
 import Product from "./Product"
 import Toast from "react-native-toast-message"
-import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view"
+import * as Permissions from 'expo-permissions';
+
 
 const ProductAdd = () => {
 
@@ -57,20 +58,25 @@ const ProductAdd = () => {
   }
 
   const takePhoto = async () => {
-    // No permissions request is necessary for launching the image library
+    const { status } = await Permissions.askAsync(Permissions.CAMERA);
+    if (status !== 'granted') {
+      console.log('Kamera izni verilmedi.');
+      return;
+    }
+
     let result = await ImagePicker.launchCameraAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.All,
       allowsEditing: true,
       aspect: [4, 3],
       quality: 1,
-    })
+    });
 
-    console.log(result)
+    console.log(result);
 
     if (!result.canceled) {
-      setImage(result.assets[0].uri)
+      setImage(result.assets[0].uri);
     }
-  }
+  };
 
   const dispatch = useDispatch()
 
