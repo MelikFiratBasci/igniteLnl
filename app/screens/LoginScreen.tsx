@@ -1,3 +1,5 @@
+// LoginScreen.tsx
+
 import { observer } from "mobx-react-lite"
 import React, { FC, useEffect, useMemo, useRef, useState } from "react"
 import { TextInput, TextStyle, ViewStyle } from "react-native"
@@ -5,6 +7,8 @@ import { Button, Icon, Screen, Text, TextField, TextFieldAccessoryProps } from "
 import { useStores } from "../models"
 import { AppStackScreenProps } from "../navigators"
 import { colors, spacing } from "../theme"
+import { api } from "../services/api"
+import { LoginModel } from "../models/LoginModel"
 
 interface LoginScreenProps extends AppStackScreenProps<"Login"> {}
 
@@ -20,35 +24,49 @@ export const LoginScreen: FC<LoginScreenProps> = observer(function LoginScreen(_
   } = useStores()
 
   useEffect(() => {
-    // Here is where you could fetch credentials from keychain or storage
-    // and pre-fill the form fields.
-    setAuthEmail("ignite@infinite.red")
-    setAuthPassword("ign1teIsAwes0m3")
+    setAuthEmail("tuna")
+    setAuthPassword("SAas1214.")
 
-    // Return a "cleanup" function that React will run when the component unmounts
     return () => {
       setAuthPassword("")
       setAuthEmail("")
     }
   }, [])
 
-  const error = isSubmitted ? validationError : ""
+  const apiError = isSubmitted ? validationError : ""
 
-  function login() {
+  async function login() {
     setIsSubmitted(true)
     setAttemptsCount(attemptsCount + 1)
 
-    if (validationError) return
+    if (apiError) return
 
-    // Make a request to your server to get an authentication token.
-    // If successful, reset the fields and set the token.
-    setIsSubmitted(false)
-    setAuthPassword("")
-    setAuthEmail("")
+    // Create a LoginModel instance with the entered username and password
+    const loginData: LoginModel = {
+      username: authEmail,
+      password: authPassword,
+    }
 
-    // We'll mock this with a fake token.
-    setAuthToken(String(Date.now()))
+    try {
+      const response = await api.login(loginData)
+      console.log(response)
+      if (response.kind === "ok") {
+        setIsSubmitted(false)
+        setAuthPassword("")
+        setAuthEmail("")
+
+        setAuthToken(response.accessToken)
+        console.log("Access Token:", response.accessToken)
+      } else {
+        const error = response.message
+        console.error(error)
+      }
+    } catch (error) {
+      console.error("API isteği sırasında bir hata oluştu:", error)
+    }
   }
+
+  // We'll mock this with a fake token.
 
   const PasswordRightAccessory = useMemo(
     () =>
@@ -81,13 +99,9 @@ export const LoginScreen: FC<LoginScreenProps> = observer(function LoginScreen(_
         onChangeText={setAuthEmail}
         containerStyle={$textField}
         autoCapitalize="none"
-        autoComplete="email"
         autoCorrect={false}
-        keyboardType="email-address"
         labelTx="loginScreen.emailFieldLabel"
         placeholderTx="loginScreen.emailFieldPlaceholder"
-        helper={error}
-        status={error ? "error" : undefined}
         onSubmitEditing={() => authPasswordInput.current?.focus()}
       />
 

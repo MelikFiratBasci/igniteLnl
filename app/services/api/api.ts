@@ -1,74 +1,44 @@
-/**
- * This Api class lets you define an API endpoint and methods to request
- * data and process it.
- *
- * See the [Backend API Integration](https://github.com/infinitered/ignite/blob/master/docs/Backend-API-Integration.md)
- * documentation for more details.
- */
-import {
-  ApiResponse, // @demo remove-current-line
-  ApisauceInstance,
-  create,
-} from "apisauce"
-import Config from "../../config"
-import { GeneralApiProblem, getGeneralApiProblem } from "./apiProblem" // @demo remove-current-line
-import type {
-  ApiConfig,
-  ApiFeedResponse, // @demo remove-current-line
-} from "./api.types"
-import type { EpisodeSnapshotIn } from "../../models/Episode" // @demo remove-current-line
+// Api.ts
 
-/**
- * Configuring the apisauce instance.
- */
+import { ApiResponse, ApisauceInstance, create } from "apisauce"
+import Config from "../../config"
+import { GeneralApiProblem, getGeneralApiProblem } from "./apiProblem"
+
+import type { EpisodeSnapshotIn } from "../../models/Episode"
+import axios from "axios"
+
 export const DEFAULT_API_CONFIG: ApiConfig = {
   url: Config.API_URL,
   timeout: 10000,
 }
 
-/**
- * Manages all requests to the API. You can use this class to build out
- * various requests that you need to call from your backend API.
- */
 export class Api {
   apisauce: ApisauceInstance
   config: ApiConfig
 
-  /**
-   * Set up our API instance. Keep this lightweight!
-   */
   constructor(config: ApiConfig = DEFAULT_API_CONFIG) {
     this.config = config
     this.apisauce = create({
-      baseURL: this.config.url,
-      timeout: this.config.timeout,
+      baseURL: "http://192.168.88.62:4011",
       headers: {
         Accept: "application/json",
       },
     })
   }
 
-  // @demo remove-block-start
-  /**
-   * Gets a list of recent React Native Radio episodes.
-   */
   async getEpisodes(): Promise<{ kind: "ok"; episodes: EpisodeSnapshotIn[] } | GeneralApiProblem> {
-    // make the api call
     const response: ApiResponse<ApiFeedResponse> = await this.apisauce.get(
-      `api.json?rss_url=https%3A%2F%2Ffeeds.simplecast.com%2FhEI_f9Dx`,
+      `http://192.168.88.62:4011/users/signin`,
     )
 
-    // the typical ways to die when calling an api
     if (!response.ok) {
       const problem = getGeneralApiProblem(response)
       if (problem) return problem
     }
 
-    // transform the data into the format we are expecting
     try {
       const rawData = response.data
 
-      // This is where we transform the data into the shape we expect for our MST model.
       const episodes: EpisodeSnapshotIn[] = rawData.items.map((raw) => ({
         ...raw,
       }))
@@ -81,8 +51,91 @@ export class Api {
       return { kind: "bad-data" }
     }
   }
-  // @demo remove-block-end
+
+  async login(loginData: { username: string; password: string }): Promise<ApiLoginResponse> {
+    console.log(this.config.url)
+    try {
+      console.log("data Burası:", loginData)
+      const response = await axios.post("http://192.168.88.62:4011/users/signin", loginData)
+      console.log(response.data)
+      if (response.data.accessToken) {
+        const accessToken = response.data.accessToken
+
+        this.apisauce.setHeader("Authorization", `Bearer ${accessToken}`)
+
+        return {
+          kind: "ok",
+          temporary: false,
+          message: "Login successful",
+          accessToken: accessToken,
+        }
+      } else {
+        const error = response.statusText
+        return { kind: "rejected", temporary: false, message: "lololoosaosaokf" }
+      }
+    } catch (error) {
+      console.error("API isteği sırasında bir hata oluştu:", error)
+      return { kind: "rejected", temporary: false, message: "API isteği sırasında bir hata oluştu" }
+    }
+  }
 }
 
-// Singleton instance of the API for convenience
 export const api = new Api()
+
+/**
+ * These types indicate the shape of the data you expect to receive from your
+ * API endpoint, assuming it's a JSON object like we have.
+ */
+export interface EpisodeItem {
+  title: string
+  pubDate: string
+  link: string
+  guid: string
+  author: string
+  thumbnail: string
+  description: string
+  content: string
+  enclosure: {
+    link: string
+    type: string
+    length: number
+    duration: number
+    rating: { scheme: string; value: string }
+  }
+  categories: string[]
+}
+
+export interface ApiFeedResponse {
+  status: string
+  feed: {
+    url: string
+    title: string
+    link: string
+    author: string
+    description: string
+    image: string
+  }
+  items: EpisodeItem[]
+}
+
+export interface ApiLoginResponse {
+  kind: "ok" | "rejected"
+  temporary: boolean
+  message: string
+  accessToken?: string
+}
+
+/**
+ * The options used to configure apisauce.
+ */
+export interface ApiConfig {
+  /**
+   * The URL of the api.
+   */
+  url: string
+
+  /**
+   * Milliseconds before we timeout the request.
+   */
+  timeout: number
+}

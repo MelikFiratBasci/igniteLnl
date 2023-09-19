@@ -33,6 +33,12 @@ export interface ApiFeedResponse {
   }
   items: EpisodeItem[]
 }
+export interface ApiLoginResponse {
+  kind?: string
+  temporary: boolean
+  message: string
+  accessToken?: string
+}
 
 /**
  * The options used to configure apisauce.

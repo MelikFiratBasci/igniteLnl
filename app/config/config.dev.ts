@@ -7,5 +7,4 @@
  */
 export default {
   API_URL: "http://192.168.88.62:4011",
-  timeout: 10000,
 }
