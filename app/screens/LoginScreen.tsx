@@ -14,32 +14,21 @@ interface LoginScreenProps extends AppStackScreenProps<"Login"> {}
 
 export const LoginScreen: FC<LoginScreenProps> = observer(function LoginScreen(_props) {
   const authPasswordInput = useRef<TextInput>()
+  const [authEmail, setAuthEmail] = useState("tuna")
 
-  const [authPassword, setAuthPassword] = useState("")
+  const [authPassword, setAuthPassword] = useState("SAas1214.")
   const [isAuthPasswordHidden, setIsAuthPasswordHidden] = useState(true)
   const [isSubmitted, setIsSubmitted] = useState(false)
   const [attemptsCount, setAttemptsCount] = useState(0)
   const {
-    authenticationStore: { authEmail, setAuthEmail, setAuthToken, validationError },
+    authenticationStore: { setAuthToken, validationError },
   } = useStores()
-
-  useEffect(() => {
-    setAuthEmail("tuna")
-    setAuthPassword("SAas1214.")
-
-    return () => {
-      setAuthPassword("")
-      setAuthEmail("")
-    }
-  }, [])
 
   const apiError = isSubmitted ? validationError : ""
 
   async function login() {
     setIsSubmitted(true)
     setAttemptsCount(attemptsCount + 1)
-
-    if (apiError) return
 
     // Create a LoginModel instance with the entered username and password
     const loginData: LoginModel = {
@@ -49,7 +38,6 @@ export const LoginScreen: FC<LoginScreenProps> = observer(function LoginScreen(_
 
     try {
       const response = await api.login(loginData)
-      console.log(response)
       if (response.kind === "ok") {
         setIsSubmitted(false)
         setAuthPassword("")
@@ -62,7 +50,16 @@ export const LoginScreen: FC<LoginScreenProps> = observer(function LoginScreen(_
         console.error(error)
       }
     } catch (error) {
+      setAuthPassword("")
       console.error("API isteği sırasında bir hata oluştu:", error)
+      if (apiError) {
+        // Eğer önceki girişte hata varsa, tekrar denemek için şifre alanını boşalt
+      }
+
+      setIsSubmitted(false)
+      return
+    } finally {
+      setAttemptsCount(attemptsCount + 1)
     }
   }
 

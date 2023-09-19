@@ -1,5 +1,3 @@
-// Api.ts
-
 import { ApiResponse, ApisauceInstance, create } from "apisauce"
 import Config from "../../config"
 import { GeneralApiProblem, getGeneralApiProblem } from "./apiProblem"
@@ -19,7 +17,7 @@ export class Api {
   constructor(config: ApiConfig = DEFAULT_API_CONFIG) {
     this.config = config
     this.apisauce = create({
-      baseURL: "http://192.168.88.62:4011",
+      baseURL: config.url, // Base URL'yi burada kullanın
       headers: {
         Accept: "application/json",
       },
@@ -28,7 +26,7 @@ export class Api {
 
   async getEpisodes(): Promise<{ kind: "ok"; episodes: EpisodeSnapshotIn[] } | GeneralApiProblem> {
     const response: ApiResponse<ApiFeedResponse> = await this.apisauce.get(
-      `http://192.168.88.62:4011/users/signin`,
+      `/users/signin`, // Base URL'yi kullanarak yolu düzenleyin
     )
 
     if (!response.ok) {
@@ -53,11 +51,8 @@ export class Api {
   }
 
   async login(loginData: { username: string; password: string }): Promise<ApiLoginResponse> {
-    console.log(this.config.url)
     try {
-      console.log("data Burası:", loginData)
-      const response = await axios.post("http://192.168.88.62:4011/users/signin", loginData)
-      console.log(response.data)
+      const response = await axios.post(`${this.config.url}/users/signin`, loginData) // Base URL'yi kullanarak URL'yi düzenleyin
       if (response.data.accessToken) {
         const accessToken = response.data.accessToken
 
@@ -71,7 +66,7 @@ export class Api {
         }
       } else {
         const error = response.statusText
-        return { kind: "rejected", temporary: false, message: "lololoosaosaokf" }
+        return { kind: "rejected", temporary: false, message: error }
       }
     } catch (error) {
       console.error("API isteği sırasında bir hata oluştu:", error)
