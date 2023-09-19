@@ -144,7 +144,7 @@ const Product = () => {
 
       <Animated.FlatList
         ListFooterComponent={
-          <View style={{ height: 200 }} />
+          <View style={{ height: 100 }} />
 
         }
         contentContainerStyle={{ gap: 12}} onScroll={scrollHandler} scrollEventThrottle={16}

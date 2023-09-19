@@ -10,6 +10,9 @@
  * The app navigation resides in ./app/navigators, so head over there
  * if you're interested in adding screens and navigators.
  */
+
+import { Text } from "./components"
+
 if (__DEV__) {
   // Load Reactotron configuration in development. We don't want to
   // include this in our production bundle, so we are using `if (__DEV__)`
@@ -28,6 +31,10 @@ import { ErrorBoundary } from "./screens/ErrorScreen/ErrorBoundary"
 import * as storage from "./utils/storage"
 import { customFontsToLoad } from "./theme"
 import Config from "./config"
+import { Provider } from "react-redux"
+import { store } from "./store/index"
+import Toast from "react-native-toast-message"
+
 
 export const NAVIGATION_PERSISTENCE_KEY = "NAVIGATION_STATE"
 
@@ -47,8 +54,6 @@ const config = {
         DemoDebug: "debug",
         DemoPodcastList: "podcast",
         DemoCommunity: "community",
-        LnlHome : "lnlHome",
-        LnlDebug : "lnlDebug",
       },
     },
   },
@@ -96,15 +101,20 @@ function App(props: AppProps) {
 
   // otherwise, we're ready to render the app
   return (
+
     <SafeAreaProvider initialMetrics={initialWindowMetrics}>
       <ErrorBoundary catchErrors={Config.catchErrors}>
-        <AppNavigator
-          linking={linking}
-          initialState={initialNavigationState}
-          onStateChange={onNavigationStateChange}
-        />
+        <Provider store={store}>
+          <AppNavigator
+            linking={linking}
+            initialState={initialNavigationState}
+            onStateChange={onNavigationStateChange}
+          />
+
+        </Provider>
       </ErrorBoundary>
     </SafeAreaProvider>
+
   )
 }
 

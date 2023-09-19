@@ -3,11 +3,13 @@ import { createDrawerNavigator } from "@react-navigation/drawer";
 import { LnlDebugScreen ,DemoDebugScreen,DemoCommunityScreen,TesterScreen} from 'app/screens';
 
 import { DemoNavigator } from './DemoNavigator';
+import { ProductScreen } from "../screens/ProductScreen/ProductScreen"
 type drawerType={
   Home:undefined
   Debug:undefined
   Community:undefined
   Test : undefined
+  ProductScreen : undefined
 
 }
 const Drawer =createDrawerNavigator<drawerType>();
@@ -19,6 +21,7 @@ const DrawerNavigator = () => {
       <Drawer.Screen name="Home" 
       options={{
         drawerLabel:'Home Screen'
+
       }}
       component={LnlDebugScreen}
       />
@@ -37,6 +40,11 @@ const DrawerNavigator = () => {
               drawerLabel:'Test'
             }}
       component={TesterScreen}/>
+      <Drawer.Screen name="Products and Services"
+                     options={{
+                       drawerLabel:'Products and Services'
+                     }}
+                     component={ProductScreen}/>
     </Drawer.Navigator>
    
   )

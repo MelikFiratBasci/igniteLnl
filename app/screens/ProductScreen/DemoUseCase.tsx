@@ -34,7 +34,7 @@ const $description: TextStyle = {
   marginTop: spacing.md,
 }
 
-const $item: ViewStyle = {
+const $item: { marginHorizontal: 8; padding: 8; borderRadius: number; gap: 8; marginBottom: 16; justifyContent: string } = {
 
   borderRadius: 8,
   marginHorizontal: spacing.xs,

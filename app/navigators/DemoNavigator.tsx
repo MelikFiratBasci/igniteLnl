@@ -12,6 +12,9 @@ import { AppStackParamList, AppStackScreenProps } from "./AppNavigator"
 import { LNLHomeScreen } from "app/screens/LNL/HomeScreen"
 import {LnlDebugScreen} from "app/screens/LNL/LNLDebugScreen"
 import DrawerNavigator from "./DrawerNavigator"
+import { ProductScreen } from "../screens/ProductScreen/ProductScreen"
+import { AntDesign } from "@expo/vector-icons"
+
 
 export type DemoTabParamList = {
   DemoCommunity: undefined
@@ -73,28 +76,7 @@ export function DemoNavigator() {
         }}
       />
 
-      <Tab.Screen
-        name="DemoCommunity"
-        component={DemoCommunityScreen}
-        options={{
-          tabBarLabel: translate("demoNavigator.communityTab"),
-          tabBarIcon: ({ focused }) => (
-            <Icon icon="community" color={focused && colors.tint} size={30} />
-          ),
-        }}
-      />
 
-      <Tab.Screen
-        name="DemoPodcastList"
-        component={DemoPodcastListScreen}
-        options={{
-          tabBarAccessibilityLabel: translate("demoNavigator.podcastListTab"),
-          tabBarLabel: translate("demoNavigator.podcastListTab"),
-          tabBarIcon: ({ focused }) => (
-            <Icon icon="podcast" color={focused && colors.tint} size={30} />
-          ),
-        }}
-      />
 
       <Tab.Screen
         name="DemoDebug"
@@ -106,17 +88,19 @@ export function DemoNavigator() {
           ),
         }}
       />
-   
+
       <Tab.Screen
-        name="LnlDebug"
-        component={LnlDebugScreen}
+        name="DemoAsset"
+        component={ProductScreen}
         options={{
-          tabBarLabel: "Lnl Debug",
+          tabBarLabel: translate("demoNavigator.productTab"),
           tabBarIcon: ({ focused }) => (
-            <Icon icon="pin" color={focused && colors.tint} size={30} />
+            <AntDesign name="tag" size={30} color={focused && colors.tint} />
           ),
         }}
       />
+   
+
     </Tab.Navigator>
     
   )

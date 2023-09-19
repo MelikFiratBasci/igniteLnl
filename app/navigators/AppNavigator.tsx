@@ -21,6 +21,9 @@ import { DemoNavigator, DemoTabParamList } from "./DemoNavigator" // @demo remov
 import { navigationRef, useBackButtonHandler } from "./navigationUtilities"
 import { colors } from "app/theme"
 import DrawerNavigator from "./DrawerNavigator"
+import ProductAdd from "../screens/ProductScreen/sections/Products/ProductAdd"
+import ProductDetail from "../screens/ProductScreen/sections/Products/ProductDetail"
+import Toast from "react-native-toast-message"
 
 /**
  * This type allows TypeScript to know what routes are defined in this navigator
@@ -77,6 +80,8 @@ const AppStack = observer(function AppStack() {
           <Stack.Screen name="Welcome" component={Screens.WelcomeScreen} />
           {/* @demo remove-block-start */}
           <Stack.Screen name="Demo" component={DemoNavigator} />
+          <Stack.Screen name="ProductDetail" component={ProductDetail} />
+          <Stack.Screen name="ProductAdd" component={ProductAdd} />
         </>
       ) : (
         <>
@@ -105,7 +110,10 @@ export const AppNavigator = observer(function AppNavigator(props: NavigationProp
       theme={colorScheme === "dark" ? DarkTheme : DefaultTheme}
       {...props}
     >
+
       <AppStack />
+      <Toast />
+
     </NavigationContainer>
   )
 })
