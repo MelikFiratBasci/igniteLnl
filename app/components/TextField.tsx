@@ -24,6 +24,7 @@ export interface TextFieldProps extends Omit<TextInputProps, "ref"> {
    * A style modifier for different input states.
    */
   status?: "error" | "disabled"
+
   /**
    * The label text to display if not using `labelTx`.
    */
@@ -196,6 +197,9 @@ export const TextField = forwardRef(function TextField(props: TextFieldProps, re
 
         <TextInput
           ref={input}
+          autoCorrect={false}
+          autoComplete="off"
+          autoCapitalize="none"
           underlineColorAndroid={colors.transparent}
           textAlignVertical="top"
           placeholder={placeholderContent}
