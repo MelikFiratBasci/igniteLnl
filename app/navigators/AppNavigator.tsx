@@ -21,9 +21,9 @@ import { DemoNavigator, DemoTabParamList } from "./DemoNavigator" // @demo remov
 import { navigationRef, useBackButtonHandler } from "./navigationUtilities"
 import { colors } from "app/theme"
 import DrawerNavigator from "./DrawerNavigator"
-import ProductAdd from "../screens/ProductScreen/sections/Products/ProductAdd"
-import ProductDetail from "../screens/ProductScreen/sections/Products/ProductDetail"
 import Toast from "react-native-toast-message"
+import ProductAdd from "../screens/LNL/ProductAdd"
+import ProductDetail from "../screens/LNL/ProductDetail"
 
 /**
  * This type allows TypeScript to know what routes are defined in this navigator

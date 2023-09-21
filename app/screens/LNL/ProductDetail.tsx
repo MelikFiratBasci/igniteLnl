@@ -1,8 +1,8 @@
 import React from "react"
 import { View, Image, ViewStyle, TextStyle } from "react-native"
-import { Icon, Screen } from "../../../../components"
-import { Text } from "../../../../components"
-import { colors, spacing, typography } from "../../../../theme"
+import { Icon, Screen } from "../../components"
+import { Text } from "../../components"
+import { colors, spacing, typography } from "../../theme"
 import { useNavigation } from "@react-navigation/native"
 import { SpeedDial } from 'react-native-elements';
 

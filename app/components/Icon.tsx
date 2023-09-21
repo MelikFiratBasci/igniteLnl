@@ -10,6 +10,8 @@ import {
   ViewStyle,
 } from "react-native"
 
+
+
 export type IconTypes = keyof typeof iconRegistry
 
 interface IconProps extends TouchableOpacityProps {
@@ -85,6 +87,7 @@ export function Icon(props: IconProps) {
 }
 
 export const iconRegistry = {
+
   back: require("../../assets/icons/back.png"),
   bell: require("../../assets/icons/bell.png"),
   caretLeft: require("../../assets/icons/caretLeft.png"),
@@ -108,6 +111,7 @@ export const iconRegistry = {
   view: require("../../assets/icons/view.png"),
   x: require("../../assets/icons/x.png"),
 }
+
 
 const $imageStyle: ImageStyle = {
   resizeMode: "contain",

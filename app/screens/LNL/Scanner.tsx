@@ -4,7 +4,6 @@ import { BarCodeScanner } from "expo-barcode-scanner"
 import { MaterialCommunityIcons } from "@expo/vector-icons"
 import * as Animatable from "react-native-animatable"
 import { Text } from "../../components"
-import { DemoDivider } from "./DemoDivider"
 import { useNavigation } from "@react-navigation/native"
 import { colors } from "../../theme"
 

@@ -12,8 +12,8 @@ import { AppStackParamList, AppStackScreenProps } from "./AppNavigator"
 import { LNLHomeScreen } from "app/screens/LNL/HomeScreen"
 import {LnlDebugScreen} from "app/screens/LNL/LNLDebugScreen"
 import DrawerNavigator from "./DrawerNavigator"
-import { ProductScreen } from "../screens/ProductScreen/ProductScreen"
 import { AntDesign } from "@expo/vector-icons"
+import Product from "../screens/LNL/Product"
 
 
 export type DemoTabParamList = {
@@ -91,7 +91,7 @@ export function DemoNavigator() {
 
       <Tab.Screen
         name="DemoAsset"
-        component={ProductScreen}
+        component={Product}
         options={{
           tabBarLabel: translate("demoNavigator.productTab"),
           tabBarIcon: ({ focused }) => (

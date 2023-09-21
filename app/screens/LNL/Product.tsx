@@ -1,14 +1,23 @@
 /* eslint-disable react/jsx-key */
-import React, { useState } from "react"
-import { Card } from "../../../../components"
-import { View, FlatList, Image, TouchableOpacity, ViewStyle, RefreshControl, ActivityIndicator } from "react-native"
-import SearchBar from "../../SearchBar"
+import React, { useRef, useState } from "react"
+import { Card } from "../../components"
+import {
+  View,
+  FlatList,
+  Image,
+  TouchableOpacity,
+  ViewStyle,
+  RefreshControl,
+  ActivityIndicator,
+  Platform, Dimensions, ImageStyle,
+} from "react-native"
+import SearchBar from "./SearchBar"
 import { useEffect } from "react"
-import { colors, spacing } from "../../../../theme"
-import { Text } from "../../../../components"
-import { useNavigation } from "@react-navigation/native"
+import { colors, spacing } from "../../theme"
+import { NavigationContainer, useNavigation } from "@react-navigation/native"
 import { useDispatch, useSelector } from "react-redux"
-import { addProduct, changeSearchTerm, resetProducts } from "../../../../store/index"
+import { addProduct, changeSearchTerm, resetProducts } from "../../store/index"
+import { ListItem, Screen, Text } from "../../components"
 import { createSelector } from "@reduxjs/toolkit"
 import { AntDesign } from "@expo/vector-icons"
 import Animated, {
@@ -19,6 +28,13 @@ import Animated, {
   withTiming,
 } from "react-native-reanimated"
 import Toast from "react-native-toast-message"
+import { DrawerLayout, DrawerState } from "react-native-gesture-handler"
+import { DrawerIconButton } from "../DemoShowroomScreen/DrawerIconButton"
+import { isRTL } from "../../i18n"
+import { useSafeAreaInsetsStyle } from "../../utils/useSafeAreaInsetsStyle"
+import drawerNavigator from "../../navigators/DrawerNavigator"
+import DrawerNavigator from "../../navigators/DrawerNavigator"
+import * as Demos from "../DemoShowroomScreen/demos"
 
 const Product = () => {
 
@@ -139,7 +155,10 @@ const Product = () => {
 
   return (
 
-    <View style={{  flex: 1,  gap: spacing.md }}>
+    <Screen preset="fixed" safeAreaEdges={["top"]} contentContainerStyle={$screenContainer}>
+
+    <View style={{  flex: 1,  gap: spacing.md  }}>
+
       <SearchBar onSearch={handleSearch} searchTerm={searchTerm} />
 
       {loading ? (
@@ -209,9 +228,7 @@ const Product = () => {
 
           <Animated.View style={[$action, addButtonStyle]}>
             <TouchableOpacity onPress={() => {
-              navigation.navigate("ProductAdd")
-            }
-            }
+              navigation.navigate("ProductAdd") }}
             >
               <AntDesign name="pluscircle" size={48} color={colors.tint} />
             </TouchableOpacity>
@@ -219,11 +236,15 @@ const Product = () => {
         </View>
       )}
 
-
     </View>
+    </Screen>
+
+
   )
 
+
 }
+
 
 export default Product
 
@@ -242,5 +263,29 @@ const $contentContainer: ViewStyle = {
   flex:1,
   gap: spacing.md
 }
+
+const $screenContainer: ViewStyle = {
+  flex: 1,
+
+}
+const $drawer: ViewStyle = {
+  backgroundColor: colors.background,
+  flex: 1,
+}
+const $logoImage: ImageStyle = {
+  height: 150,
+  width: 150,
+}
+const $flatListContentContainer: ViewStyle = {
+  paddingHorizontal: spacing.lg,
+}
+
+const $logoContainer: ViewStyle = {
+  alignSelf: "flex-start",
+  justifyContent: "center",
+  height: 56,
+  paddingHorizontal: spacing.lg,
+}
+
 
 // @demo remove-file

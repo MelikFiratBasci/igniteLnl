@@ -5,21 +5,19 @@ import {
   ViewStyle,
   TextStyle,
   TouchableOpacity,
-  TouchableWithoutFeedback,
-  KeyboardAvoidingView,
   ScrollView,
-  StyleSheet, Platform, Keyboard,
+  StyleSheet, Platform,
 } from "react-native"
-import { Card, Icon, Screen, TextField } from "../../../../components"
-import { Text } from "../../../../components"
+import { Card, Icon, Screen, TextField } from "../../components"
+import { Text } from "../../components"
 import { BottomSheet, Button, ListItem } from "react-native-elements"
-import { colors, spacing, typography } from "../../../../theme"
+import { colors, spacing, typography } from "../../theme"
 import { useNavigation } from "@react-navigation/native"
 import { MaterialIcons } from "@expo/vector-icons"
 import { MaterialCommunityIcons } from "@expo/vector-icons"
 import * as ImagePicker from "expo-image-picker"
 import { useDispatch } from "react-redux"
-import { addProduct } from "../../../../store/index"
+import { addProduct } from "../../store/index"
 import Product from "./Product"
 import Toast from "react-native-toast-message"
 import * as Permissions from 'expo-permissions';
@@ -42,7 +40,7 @@ const ProductAdd = () => {
   }]
 
   const pickImage = async () => {
-    // No permissions request is necessary for launching the image library
+
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.All,
       allowsEditing: true,

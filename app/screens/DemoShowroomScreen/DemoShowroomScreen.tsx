@@ -87,8 +87,8 @@ const ShowroomListItem = Platform.select({ web: WebListItem, default: NativeList
 export const DemoShowroomScreen: FC<DemoTabScreenProps<"DemoShowroom">> =
   function DemoShowroomScreen(_props) {
     const [open, setOpen] = useState(false)
-    const timeout = useRef<ReturnType<typeof setTimeout>>()
     const drawerRef = useRef<DrawerLayout>()
+    const timeout = useRef<ReturnType<typeof setTimeout>>()
     const listRef = useRef<SectionList>()
     const menuRef = useRef<FlatList>()
     const progress = useSharedValue(0)
@@ -161,6 +161,7 @@ export const DemoShowroomScreen: FC<DemoTabScreenProps<"DemoShowroom">> =
 
     return (
       <DrawerLayout
+
         ref={drawerRef}
         drawerWidth={Platform.select({ default: 326, web: Dimensions.get("window").width * 0.3 })}
         drawerType={"slide"}
@@ -199,6 +200,7 @@ export const DemoShowroomScreen: FC<DemoTabScreenProps<"DemoShowroom">> =
         )}
       >
         <Screen preset="fixed" safeAreaEdges={["top"]} contentContainerStyle={$screenContainer}>
+
           <DrawerIconButton onPress={toggleDrawer} {...{ open, progress }} />
 
           <SectionList
@@ -232,6 +234,7 @@ export const DemoShowroomScreen: FC<DemoTabScreenProps<"DemoShowroom">> =
 
 const $screenContainer: ViewStyle = {
   flex: 1,
+
 }
 
 const $drawer: ViewStyle = {
@@ -249,6 +252,7 @@ const $sectionListContentContainer: ViewStyle = {
 
 const $heading: ViewStyle = {
   marginBottom: spacing.xxxl,
+
 }
 
 const $logoImage: ImageStyle = {

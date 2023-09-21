@@ -1,54 +1,89 @@
-import React from 'react'
-import { createDrawerNavigator } from "@react-navigation/drawer";
-import { LnlDebugScreen ,DemoDebugScreen,DemoCommunityScreen,TesterScreen} from 'app/screens';
+import React, { useRef, useState } from "react"
+import { createDrawerNavigator } from "@react-navigation/drawer"
+import { ScreensArray, constant } from '../constants/constants';
+import {StyleSheet} from "react-native"
+import DrawerLNL from "./DrawerLNL"
 
-import { DemoNavigator } from './DemoNavigator';
-import { ProductScreen } from "../screens/ProductScreen/ProductScreen"
-type drawerType={
-  Home:undefined
-  Debug:undefined
-  Community:undefined
-  Test : undefined
-  ProductScreen : undefined
-
-}
-const Drawer =createDrawerNavigator<drawerType>();
+const Drawer = createDrawerNavigator<drawerType>()
 
 const DrawerNavigator = () => {
-  return (
-    <Drawer.Navigator
-    initialRouteName='Home'>
-      <Drawer.Screen name="Home" 
-      options={{
-        drawerLabel:'Home Screen'
 
+  return (
+
+
+    <Drawer.Navigator
+      screenOptions={{
+        drawerStyle: styles.drawerStyles,
       }}
-      component={LnlDebugScreen}
-      />
-      <Drawer.Screen name="Debug" 
-      options={{
-        drawerLabel:'Debug Screen'
-      }}
-      component={DemoDebugScreen}/>
-      <Drawer.Screen name="Community"
-            options={{
-              drawerLabel:'Community Screen'
-            }}
-      component={DemoCommunityScreen}/>
-      <Drawer.Screen name="Test"
-            options={{
-              drawerLabel:'Test'
-            }}
-      component={TesterScreen}/>
-      <Drawer.Screen name="Products and Services"
-                     options={{
-                       drawerLabel:'Products and Services'
-                     }}
-                     component={ProductScreen}/>
+    drawerContent={(props) => <DrawerLNL {...props} />}
+    >
+      {ScreensArray.map((item, index) => (
+        <Drawer.Screen key={index} name={item.route} component={item.component}
+
+        options={{
+          item,
+
+        }}/> ))}
     </Drawer.Navigator>
-   
+
+
+//     <Drawer.Navigator
+//
+//       screenOptions={{
+//
+//
+//         headerShown: true,
+//         drawerWidth: Platform.select({ default: 326, web: Dimensions.get("window").width * 0.3 }),
+//         drawerType: "slide",
+//         drawerPosition:isRTL ? "right" : "left",
+//         drawerActiveBackgroundColor: themeColors.sidebar.menuItemBgActive,
+//         drawerStyle: {
+//
+//           width: "80%",
+//         },
+//         overlayColor:colors.palette.overlay20,
+//         drawerItemStyle: {
+// marginVertical: 4,
+//           borderRadius: 8,
+//         },
+//         drawerActiveTintColor: themeColors.sidebar.menuItemColor,
+//         drawerLabelStyle: {
+//           marginLeft: -16,
+//           color: colors.text,
+//           fontSize: 16,
+//         },
+//
+//
+//       }}
+//       drawerContent={(props) => <CustomDrawerNavigator {...props} />
+//     }
+//
+//     >
+//
+//       {ScreensArray.map((item, index) => {
+//         return (
+//           <Drawer.Screen
+//             key={index}
+//             name={item.route}
+//             component={item.component}
+//             options={{
+//               item,
+//               drawerIcon: ({ color, size, focused }) => (
+//                 <Icon type={item.type} name={item.icon} size={size} color={color} />
+//               )
+//             }}
+//           />)
+//       })}
+//     </Drawer.Navigator>
+
   )
 }
 
-export default DrawerNavigator
 
+
+const styles = StyleSheet.create({
+  drawerStyles: {width: "80%", backgroundColor: "transparent"},
+  }
+)
+
+export default DrawerNavigator

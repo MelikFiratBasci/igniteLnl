@@ -3,8 +3,6 @@ import { TextInput, TouchableOpacity, View, ViewStyle } from "react-native"
 import { EvilIcons, MaterialIcons } from "@expo/vector-icons"
 import Scanner from "./Scanner"
 import { colors, spacing } from "../../theme"
-import { useDispatch, useSelector } from "react-redux"
-import { changeSearchTerm} from "../../store"
 
 
 const SearchBar = ({ onSearch, searchTerm }) => { // onSearch prop'unu doğru şekilde alın
@@ -52,6 +50,7 @@ const $searchLayout: ViewStyle = {
   gap: spacing.xs,
   flexDirection: "row",
   marginHorizontal: spacing.md,
+  marginTop: spacing.xxs
 
 }
 
