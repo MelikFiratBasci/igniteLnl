@@ -5745,6 +5745,11 @@
     "compare-versions" "^3.4.0"
     "invariant" "^2.2.4"
 
+"expo-permissions@^14.4.0":
+  "integrity" "sha512-oAcnJ7dlZhpBydK73cwomA2xofizayVUz+FW5REl7dMu7MYyeN/3aqhlpZ3mYddrxvG161bqu97MQr01UixUnw=="
+  "resolved" "https://registry.npmjs.org/expo-permissions/-/expo-permissions-14.4.0.tgz"
+  "version" "14.4.0"
+
 "expo-pwa@0.0.126":
   "integrity" "sha512-9qb6aIY0awez4FTyIiNhqyekb6sKnbvODOFCDPg23PqpkvdhuzzDRtP/Avgippt8kqRAgPpFXmIp2LaAyH1/aw=="
   "resolved" "https://registry.npmjs.org/expo-pwa/-/expo-pwa-0.0.126.tgz"

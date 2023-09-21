@@ -1,34 +1,28 @@
-// LoginScreen.tsx
-
 import { observer } from "mobx-react-lite"
-import React, { FC, useEffect, useMemo, useRef, useState } from "react"
+import React, { FC, useContext, useEffect, useMemo, useRef, useState } from "react"
 import { TextInput, TextStyle, ViewStyle } from "react-native"
 import { Button, Icon, Screen, Text, TextField, TextFieldAccessoryProps } from "../components"
-import { useStores } from "../models"
 import { AppStackScreenProps } from "../navigators"
 import { colors, spacing } from "../theme"
-import { api } from "../services/api"
 import { LoginModel } from "../models/LoginModel"
+import { Context as AuthContext } from "../context/AuthContext"
 
 interface LoginScreenProps extends AppStackScreenProps<"Login"> {}
 
 export const LoginScreen: FC<LoginScreenProps> = observer(function LoginScreen(_props) {
-  const authPasswordInput = useRef<TextInput>()
+  const authPasswordInput = useRef<TextInput>(null)
   const [authEmail, setAuthEmail] = useState("tuna")
-
   const [authPassword, setAuthPassword] = useState("SAas1214.")
   const [isAuthPasswordHidden, setIsAuthPasswordHidden] = useState(true)
   const [isSubmitted, setIsSubmitted] = useState(false)
   const [attemptsCount, setAttemptsCount] = useState(0)
-  const {
-    authenticationStore: { setAuthToken, validationError },
-  } = useStores()
-
-  const apiError = isSubmitted ? validationError : ""
+  const authContext = useContext(AuthContext)
 
   async function login() {
     setIsSubmitted(true)
     setAttemptsCount(attemptsCount + 1)
+
+    const apiError = isSubmitted ? authContext.errorMessage : ""
 
     // Create a LoginModel instance with the entered username and password
     const loginData: LoginModel = {
@@ -37,13 +31,11 @@ export const LoginScreen: FC<LoginScreenProps> = observer(function LoginScreen(_
     }
 
     try {
-      const response = await api.login(loginData)
+      const response = await authContext.actions.signin(loginData)
       if (response.kind === "ok") {
         setIsSubmitted(false)
         setAuthPassword("")
         setAuthEmail("")
-
-        setAuthToken(response.accessToken)
         console.log("Access Token:", response.accessToken)
       } else {
         const error = response.message
@@ -55,15 +47,12 @@ export const LoginScreen: FC<LoginScreenProps> = observer(function LoginScreen(_
       if (apiError) {
         // Eğer önceki girişte hata varsa, tekrar denemek için şifre alanını boşalt
       }
-
       setIsSubmitted(false)
       return
     } finally {
       setAttemptsCount(attemptsCount + 1)
     }
   }
-
-  // We'll mock this with a fake token.
 
   const PasswordRightAccessory = useMemo(
     () =>
@@ -153,5 +142,3 @@ const $textField: ViewStyle = {
 const $tapButton: ViewStyle = {
   marginTop: spacing.xs,
 }
-
-// @demo remove-file

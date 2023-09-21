@@ -10,21 +10,21 @@ import { DemoPodcastListScreen } from "../screens/DemoPodcastListScreen"
 import { colors, spacing, typography } from "../theme"
 import { AppStackParamList, AppStackScreenProps } from "./AppNavigator"
 import { LNLHomeScreen } from "app/screens/LNL/HomeScreen"
-import {LnlDebugScreen} from "app/screens/LNL/LNLDebugScreen"
+import { LnlDebugScreen } from "app/screens/LNL/LNLDebugScreen"
 import DrawerNavigator from "./DrawerNavigator"
 import { ProductScreen } from "../screens/ProductScreen/ProductScreen"
 import { AntDesign } from "@expo/vector-icons"
 
-
 export type DemoTabParamList = {
+  DrawerNavigator: undefined
+
   DemoCommunity: undefined
   DemoShowroom: { queryIndex?: string; itemIndex?: string }
   DemoDebug: undefined
   DemoPodcastList: undefined
-  LnlDebug : undefined
-  TesterScreen:undefined
-  DrawerNavigator : undefined
-
+  LnlDebug: undefined
+  TesterScreen: undefined
+  DemoAsset: undefined
 }
 
 /**
@@ -54,7 +54,6 @@ export function DemoNavigator() {
         tabBarItemStyle: $tabBarItem,
       }}
     >
-      
       <Tab.Screen
         name="DrawerNavigator"
         component={DrawerNavigator}
@@ -75,8 +74,6 @@ export function DemoNavigator() {
           ),
         }}
       />
-
-
 
       <Tab.Screen
         name="DemoDebug"
@@ -99,10 +96,7 @@ export function DemoNavigator() {
           ),
         }}
       />
-   
-
     </Tab.Navigator>
-    
   )
 }
 

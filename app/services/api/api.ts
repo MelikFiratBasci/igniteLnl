@@ -1,9 +1,8 @@
 import { ApiResponse, ApisauceInstance, create } from "apisauce"
 import Config from "../../config"
 import { GeneralApiProblem, getGeneralApiProblem } from "./apiProblem"
-
 import type { EpisodeSnapshotIn } from "../../models/Episode"
-import axios from "axios"
+import axios, { AxiosRequestConfig } from "axios"
 
 export const DEFAULT_API_CONFIG: ApiConfig = {
   url: Config.API_URL,
@@ -71,6 +70,41 @@ export class Api {
     } catch (error) {
       console.error("API isteği sırasında bir hata oluştu:", error)
       return { kind: "rejected", temporary: false, message: "API isteği sırasında bir hata oluştu" }
+    }
+  }
+
+  async post<T, U = T>(
+    url: string,
+    data?: any,
+    axiosConfig?: AxiosRequestConfig,
+  ): Promise<ApiResponse<T, U>> {
+    try {
+      // Özelleştirilmiş istek yapılandırmalarını axiosConfig parametresi olarak iletebilirsiniz
+      // Örnekte "headers" özelliğini ekliyoruz
+      const customAxiosConfig: AxiosRequestConfig = {
+        ...axiosConfig,
+        headers: {
+          ...axiosConfig?.headers, // Mevcut başlıkları koruyun
+          "x-ray": "machine", // Yeni başlık ekleyin veya mevcut başlığı değiştirin
+        },
+      }
+
+      // Burada axios veya apisauce gibi HTTP istemcisini kullanarak isteği gönderin
+      const response: ApiResponse<T, U> = await axios.post(url, data, customAxiosConfig)
+
+      // Başarılı bir yanıtı döndürün
+      return response
+    } catch (error) {
+      // Hata yakalama ve işleme burada yapılabilir
+      // Dilediğiniz gibi hata mesajlarını işleyebilir ve özelleştirebilirsiniz
+      console.error("API isteği sırasında bir hata oluştu:", error)
+
+      // Örnek olarak bir hata nesnesi dönebilirsiniz
+      return {
+        ok: false,
+        problem: "UNKNOWN_ERROR",
+        // Ek olarak, 'data' ve diğer özellikleri de eklemeyi unutmayın
+      }
     }
   }
 }
