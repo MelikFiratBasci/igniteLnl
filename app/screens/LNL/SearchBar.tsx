@@ -51,6 +51,7 @@ const $searchLayout: ViewStyle = {
   alignItems: "center",
   gap: spacing.xs,
   flexDirection: "row",
+  marginHorizontal: spacing.md,
 
 }
 
