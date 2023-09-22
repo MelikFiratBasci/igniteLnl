@@ -1,10 +1,11 @@
-import { LNLHomeScreen } from "../screens/LNL/HomeScreen"
-import Product from "../screens/LNL/Product"
-import { AntDesign } from '@expo/vector-icons';
+import HomeScreen from "../screens/LNL/HomeScreen"
+import ProductScreen from "../screens/LNL/ProductScreen"
+import { AntDesign, Entypo, FontAwesome, FontAwesome5 } from "@expo/vector-icons"
 import { colors } from "../theme"
 import { Icons } from "../components/Icons"
-
-
+import Feather from "react-native-vector-icons/Feather"
+import DepartmentScreen from "../screens/LNL/DepartmentScreen"
+import WarningScreen from "../screens/LNL/WarningScreen"
 
 export const constant = {
   SPACING: 16,
@@ -17,20 +18,12 @@ export const constant = {
 export const IconSize = 24
 
 export const ScreensArray = [
-  { route: 'Home', label: "Home", type: Icons.AntDesign, icon: 'home', component: LNLHomeScreen},
-  { route: 'Product', label: "Product", type:Icons.FontAwesome, icon: 'product-hunt', component: Product, subMenu: [
-    { route: 'Product', label: "Product", type:Icons.FontAwesome, icon: 'product-hunt', component: Product},
-      { route: 'Test', label: "Test", type:Icons.FontAwesome, icon: 'product-hunt', component: undefined},
-      { route: 'Test 2', label: "Test 2", type:Icons.FontAwesome, icon: 'product-hunt', component: undefined},
-
-  ]},
-  { route: 'Changable', label: "Changable", type:Icons.FontAwesome, icon: 'product-hunt', component: Product, subMenu: [
-      { route: 'Product', label: "Product", type:Icons.FontAwesome, icon: 'product-hunt', component: Product},
-      { route: 'Test', label: "Test", type:Icons.FontAwesome, icon: 'product-hunt', component: undefined},
-      { route: 'Test 2', label: "Test 2", type:Icons.FontAwesome, icon: 'product-hunt', component: undefined},
-
+  { route: 'Home', label: "Home", type: AntDesign, icon: 'home', component: HomeScreen},
+  { route: 'Product', label: "Product", type:FontAwesome, icon: 'product-hunt', component: ProductScreen, subMenu: [
+      { route: 'Product', label: "Product", type:FontAwesome, icon: 'product-hunt', component: ProductScreen},
     ]},
-  { route: 'Settings', label: "Settings", type: Icons.AntDesign, icon: 'home', component: LNLHomeScreen},
+  { route: 'Departments', label: "Departments", type: FontAwesome, icon: 'users', component: DepartmentScreen},
+  { route: 'Warnings', label: "Warnings", type: Entypo, icon: 'warning', component: WarningScreen},
 
 ];
 
@@ -39,7 +32,7 @@ export const drawerMenu = [
   {
     title: "Settings",
     bg: colors.tint,
-    type: Icons.Feather, icon: 'settings',
+    type: Feather, icon: 'settings',
     route: 'Settings',
     menuList: [
       { title: 'Change Theme', route: 'Theme' },
@@ -49,7 +42,7 @@ export const drawerMenu = [
   {
     title: "Products and Services",
     bg: colors.tint,
-    type: Icons.FontAwesome5, icon: 'servicestack',
+    type: FontAwesome5, icon: 'servicestack',
     route: 'Todo',
     menuList: [
       { title: 'Products', route: 'Product' },

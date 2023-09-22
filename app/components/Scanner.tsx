@@ -3,9 +3,9 @@ import { View, StyleSheet, Button, Modal, TouchableOpacity } from "react-native"
 import { BarCodeScanner } from "expo-barcode-scanner"
 import { MaterialCommunityIcons } from "@expo/vector-icons"
 import * as Animatable from "react-native-animatable"
-import { Text } from "../../components"
+import { Text } from "../components"
 import { useNavigation } from "@react-navigation/native"
-import { colors } from "../../theme"
+import { colors } from "../theme"
 
 const Scanner = ({ visible, setModalVisible, search, products }) => {
   const [hasPermission, setHasPermission] = useState(null)

@@ -1,5 +1,6 @@
 import React, { useReducer, FunctionComponent, Reducer, Dispatch } from "react"
 
+
 interface DataState {}
 
 interface Action {
@@ -19,13 +20,13 @@ export default <T extends {}>(
   } & BoundActions<T>
 
   // context needs a defaultValue
-  const Context = React.createContext({ state: defaultValue } as ContextValue<T>)
+const Context = React.createContext<ContextValue<T>>({ state: defaultValue } as ContextValue<T>)
 
   // type of children is known by assigning the type FunctionComponent to Provider
 
   //@ts-ignore
   const Provider: FunctionComponent = ({ children }) => {
-    const [state, dispatch] = useReducer(reducer, defaultValue)
+const [state, dispatch] = useReducer(reducer,defaultValue)
 
     const boundActions = {} as BoundActions<T>
     for (let key in actions) {

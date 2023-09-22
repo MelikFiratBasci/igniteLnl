@@ -4,7 +4,9 @@ import { api } from "../services/api"
 import { Dispatch } from "react"
 import { LoginModel } from "app/models/LoginModel"
 import axios, { AxiosResponse } from "axios"
-import { useStores } from "../models" // @demo remove-current-line
+import { useStores } from "../models"
+import { AuthenticationStoreModel } from "../models/AuthenticationStore"
+import { ApiErrorResponse, ApiOkResponse } from "apisauce" // @demo remove-current-line
 
 interface DataState {
   accessToken: string | null
@@ -15,9 +17,10 @@ interface Action {
   type: string
   payload?: any
 }
-const {
-  authenticationStore: { logout, setAuthToken },
-} = useStores()
+
+const authStore = AuthenticationStoreModel.create({}) // @demo remove-current-line
+
+
 
 const authReducer = (state: DataState, action: Action): DataState => {
   switch (action.type) {
@@ -40,6 +43,7 @@ const tryLocalSignin = (dispatch: Dispatch<Action>) => async () => {
   try {
     const accessToken = await AsyncStorage.getItem("accessToken")
     if (accessToken) {
+
       dispatch({ type: "signin", payload: accessToken })
       return accessToken
     } else {
@@ -59,6 +63,7 @@ const signup =
   (dispatch: Dispatch<Action>) =>
   async ({ username, password }: LoginModel) => {
     try {
+
       const response: AxiosResponse<{ accessToken: string }> = await axios.post("/signup", {
         username,
         password,
@@ -66,7 +71,7 @@ const signup =
       if (response.data && response.data.accessToken) {
         await AsyncStorage.setItem("accessToken", response.data.accessToken)
         api.apisauce.setHeader("Authorization", `Bearer ${response.data.accessToken}`)
-        setAuthToken(response.data.accessToken)
+        authStore.setAuthToken(response.data.accessToken)
         dispatch({ type: "signup", payload: response.data.accessToken })
       }
     } catch (error) {
@@ -82,23 +87,30 @@ const signin =
   (dispatch: Dispatch<Action>) =>
   async ({ username, password }: LoginModel) => {
     try {
-      console.log("buradayımsss")
-      const response: AxiosResponse<{ accessToken: string }> = await axios.post("/signin", {
+
+      const response = await api.post(`${api.config.url}/users/signin`, {
         username,
         password,
+
       })
+
+
       if (response.data && response.data.accessToken) {
-        await AsyncStorage.setItem("accessToken", response.data.accessToken)
+       // await AsyncStorage.setItem("accessToken", response.data.accessToken)
         api.apisauce.setHeader("Authorization", `Bearer ${response.data.accessToken}`)
-        setAuthToken(response.data.accessToken)
+          authStore.setAuthToken(response.data.accessToken)
+
         dispatch({ type: "signin", payload: response.data.accessToken })
+        return response
       }
     } catch (error) {
+
       console.log(error)
       dispatch({
         type: "add_error",
         payload: "something went wrong with sign in",
       })
+
     }
   }
 
@@ -106,7 +118,7 @@ const signout = (dispatch: Dispatch<Action>) => async () => {
   try {
     await AsyncStorage.removeItem("accessToken")
     dispatch({ type: "signout" })
-    logout
+   authStore.logout()
   } catch (error) {
     console.log(error)
   }

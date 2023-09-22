@@ -33,7 +33,9 @@ import { customFontsToLoad } from "./theme"
 import Config from "./config"
 import { Provider } from "react-redux"
 import { store } from "./store/index"
+
 import Toast from "react-native-toast-message"
+import { Provider as AuthProvider } from "./context/AuthContext"
 
 
 export const NAVIGATION_PERSISTENCE_KEY = "NAVIGATION_STATE"
@@ -104,15 +106,18 @@ function App(props: AppProps) {
 
     <SafeAreaProvider initialMetrics={initialWindowMetrics}>
       <ErrorBoundary catchErrors={Config.catchErrors}>
+
         <Provider store={store}>
+          <AuthProvider>
           <AppNavigator
             linking={linking}
             initialState={initialNavigationState}
             onStateChange={onNavigationStateChange}
           />
-
+          </AuthProvider>
         </Provider>
-      </ErrorBoundary>
+
+        </ErrorBoundary>
     </SafeAreaProvider>
 
   )

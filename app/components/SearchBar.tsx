@@ -2,7 +2,7 @@ import React, { useState } from "react"
 import { TextInput, TouchableOpacity, View, ViewStyle } from "react-native"
 import { EvilIcons, MaterialIcons } from "@expo/vector-icons"
 import Scanner from "./Scanner"
-import { colors, spacing } from "../../theme"
+import { colors, spacing } from "../theme"
 
 
 const SearchBar = ({ onSearch, searchTerm }) => { // onSearch prop'unu doğru şekilde alın

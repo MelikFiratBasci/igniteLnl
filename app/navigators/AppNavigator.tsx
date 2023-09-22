@@ -25,6 +25,8 @@ import Toast from "react-native-toast-message"
 import ProductAdd from "../screens/LNL/ProductAdd"
 import ProductDetail from "../screens/LNL/ProductDetail"
 
+
+
 /**
  * This type allows TypeScript to know what routes are defined in this navigator
  * as well as what properties (if any) they might take when navigating to them.
@@ -71,11 +73,13 @@ const AppStack = observer(function AppStack() {
 
   // @demo remove-block-end
   return (
+
     <Stack.Navigator
       screenOptions={{ headerShown: false, navigationBarColor: colors.background }}
       initialRouteName={isAuthenticated ? "Welcome" : "Login"} // @demo remove-current-line
     >
       {/* @demo remove-block-start */}
+
       {isAuthenticated ? (
         <>
           {/* @demo remove-block-end */}

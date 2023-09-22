@@ -9,13 +9,13 @@ import { spacing } from "../../theme"
 import { Screen, Text } from "../../components"
 
 
-const HomeScreen = () => {
+const WarningScreen = () => {
 
   return (
 
     <Screen preset="fixed" safeAreaEdges={["top"]} contentContainerStyle={$screenContainer}>
       <View style={{ flex: 1, gap: spacing.md }}>
-        <Text>HomeScreen</Text>
+        <Text>WarningScreen</Text>
       </View>
     </Screen>
 
@@ -23,7 +23,7 @@ const HomeScreen = () => {
 
 }
 
-export default HomeScreen
+export default WarningScreen
 
 const $screenContainer: ViewStyle = {
   flex: 1,

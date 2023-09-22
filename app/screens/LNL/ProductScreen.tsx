@@ -11,7 +11,7 @@ import {
   ActivityIndicator,
   Platform, Dimensions, ImageStyle,
 } from "react-native"
-import SearchBar from "./SearchBar"
+import SearchBar from "../../components/SearchBar"
 import { useEffect } from "react"
 import { colors, spacing } from "../../theme"
 import { NavigationContainer, useNavigation } from "@react-navigation/native"
@@ -36,7 +36,7 @@ import drawerNavigator from "../../navigators/DrawerNavigator"
 import DrawerNavigator from "../../navigators/DrawerNavigator"
 import * as Demos from "../DemoShowroomScreen/demos"
 
-const Product = () => {
+const ProductScreen = () => {
 
   const navigation = useNavigation()
   const dispatch = useDispatch()
@@ -246,7 +246,7 @@ const Product = () => {
 }
 
 
-export default Product
+export default ProductScreen
 
 const $action: ViewStyle = {
 

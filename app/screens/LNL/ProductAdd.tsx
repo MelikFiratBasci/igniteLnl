@@ -18,7 +18,7 @@ import { MaterialCommunityIcons } from "@expo/vector-icons"
 import * as ImagePicker from "expo-image-picker"
 import { useDispatch } from "react-redux"
 import { addProduct } from "../../store/index"
-import Product from "./Product"
+import ProductScreen from "./ProductScreen"
 import Toast from "react-native-toast-message"
 import * as Permissions from 'expo-permissions';
 

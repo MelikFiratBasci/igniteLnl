@@ -92,8 +92,12 @@ export class Api {
       // Burada axios veya apisauce gibi HTTP istemcisini kullanarak isteği gönderin
       const response: ApiResponse<T, U> = await axios.post(url, data, customAxiosConfig)
 
+      console.log("API isteği başarılı:", response)
       // Başarılı bir yanıtı döndürün
-      return response
+      return {
+        data: response.data,
+        kind: "ok",
+      } as ApiResponse<T, U>
     } catch (error) {
       // Hata yakalama ve işleme burada yapılabilir
       // Dilediğiniz gibi hata mesajlarını işleyebilir ve özelleştirebilirsiniz

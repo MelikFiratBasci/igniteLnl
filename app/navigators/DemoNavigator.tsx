@@ -5,22 +5,18 @@ import { TextStyle, ViewStyle } from "react-native"
 import { useSafeAreaInsets } from "react-native-safe-area-context"
 import { Icon } from "../components"
 import { translate } from "../i18n"
-import { DemoCommunityScreen, DemoShowroomScreen, DemoDebugScreen } from "../screens"
-import { DemoPodcastListScreen } from "../screens/DemoPodcastListScreen"
+import { DemoShowroomScreen } from "../screens"
 import { colors, spacing, typography } from "../theme"
 import { AppStackParamList, AppStackScreenProps } from "./AppNavigator"
-import { LNLHomeScreen } from "app/screens/LNL/HomeScreen"
-import { LnlDebugScreen } from "app/screens/LNL/LNLDebugScreen"
 import DrawerNavigator from "./DrawerNavigator"
 import { AntDesign } from "@expo/vector-icons"
-import Product from "../screens/LNL/Product"
+import ProductScreen from "../screens/LNL/ProductScreen"
+
 
 export type DemoTabParamList = {
   DrawerNavigator: undefined
-
   DemoCommunity: undefined
   DemoShowroom: { queryIndex?: string; itemIndex?: string }
-  DemoDebug: undefined
   DemoPodcastList: undefined
   LnlDebug: undefined
   TesterScreen: undefined
@@ -75,20 +71,10 @@ export function DemoNavigator() {
         }}
       />
 
-      <Tab.Screen
-        name="DemoDebug"
-        component={DemoDebugScreen}
-        options={{
-          tabBarLabel: translate("demoNavigator.debugTab"),
-          tabBarIcon: ({ focused }) => (
-            <Icon icon="debug" color={focused && colors.tint} size={30} />
-          ),
-        }}
-      />
 
       <Tab.Screen
         name="DemoAsset"
-        component={Product}
+        component={ProductScreen}
         options={{
           tabBarLabel: translate("demoNavigator.productTab"),
           tabBarIcon: ({ focused }) => (
@@ -116,16 +102,3 @@ const $tabBarLabel: TextStyle = {
   flex: 1,
 }
 
-// @demo remove-file
-/*
-   <Tab.Screen
-        name="LnlHome"
-        component={LNLHomeScreen}
-        options={{
-          tabBarLabel: "Lnl Home",
-          tabBarIcon: ({ focused }) => (
-            <Icon icon="pin" color={focused && colors.tint} size={30} />
-          ),
-        }}
-      />
-*/
