@@ -7,6 +7,7 @@ import {
 import { spacing } from "../../theme"
 
 import { Screen, Text } from "../../components"
+import CustomTreeView from "../../components/TreeView"
 
 
 const DepartmentScreen = () => {
@@ -16,6 +17,7 @@ const DepartmentScreen = () => {
     <Screen preset="fixed" safeAreaEdges={["top"]} contentContainerStyle={$screenContainer}>
       <View style={{ flex: 1, gap: spacing.md }}>
         <Text>DepartmentScreen</Text>
+          <CustomTreeView />
       </View>
     </Screen>
 
