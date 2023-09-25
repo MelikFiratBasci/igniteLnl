@@ -14,6 +14,7 @@ const DrawerNavigator = () => {
       screenOptions={{
 
         drawerStyle: styles.drawerStyles,
+        headerShown: false,
       }}
       drawerContent={(props) => <DrawerLNL {...props} />}
     >

@@ -44,6 +44,8 @@ const fonts = {
     light: "sans-serif-light",
     normal: "sans-serif",
     medium: "sans-serif-medium",
+
+
   },
   monospace: {
     // Android only font.
@@ -68,4 +70,6 @@ export const typography = {
    * Lets get fancy with a monospace font!
    */
   code: Platform.select({ ios: fonts.courier, android: fonts.monospace }),
+
+  lnl: Platform.select({ ios: fonts.helveticaNeue, android: fonts.sansSerif }),
 }

@@ -44,7 +44,7 @@ const DrawerItem = ({
       >
         <View style={[styles.drawerItem]}>
           <Icon type={type} name={name} style={{ marginRight: spacing.md }} color={iconColor}></Icon>
-          <Text style={{ color, flex: 1 }} preset="heading" size="xs">{label}</Text>
+          <Text style={{ color, flex: 1, fontWeight: '700' }} preset="heading" size="sm">{label} </Text>
           {subMenu && subMenu.length > 0 && (
             <MaterialIcons style={{ color }} name={openSubMenu ? "arrow-drop-up" : "arrow-drop-down"} size={24} />
           )}
@@ -117,7 +117,8 @@ const DrawerLNL = (props) => {
       </TouchableOpacity>
 
       {/*drawerList Item*/}
-      <DrawerContentScrollView {...props} style={[styles.view]}>
+      <DrawerContentScrollView {...props}  contentContainerStyle={{paddingTop:0}} style={[styles.view]}>
+
         {state.routes.map((route, i) => {
 
           const isFocused = state.index === i
@@ -218,23 +219,23 @@ const styles = StyleSheet.create({
     },
     view: {
       backgroundColor: colors.palette.neutral100,
-      borderRadius: 8,
-      marginLeft: spacing.xs,
       padding: spacing.sm,
+
     },
     header: {
+      paddingTop: spacing.xl,
       padding: spacing.md,
       borderBottomWidth: 1,
       borderBottomColor: colors.background,
       flexDirection: "row",
       alignItems: "center",
-      marginTop: spacing.xl,
-      marginBottom: spacing.xs,
+
     },
 
     footer: {
       height: 64,
-      marginVertical: spacing.xs,
+      borderTopWidth: 1,
+      borderTopColor: colors.background,
 
 
     },

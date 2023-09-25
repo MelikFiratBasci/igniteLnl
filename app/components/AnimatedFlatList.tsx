@@ -94,10 +94,10 @@ const AnimatedFlatList: React.FC<AnimatedFlatListProps> = ({
                 onPress={() => onItemPress(item)}
               >
                 <Card
+                  heading={item.title}
                   ContentComponent={
-                    <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
-                      <View style={{ gap: 16 }}>
-                        <Text preset="default" text={item.title} />
+
+                      <View style={{ gap: 16}}>
 
                         {item.image && (
                           <View
@@ -110,7 +110,7 @@ const AnimatedFlatList: React.FC<AnimatedFlatListProps> = ({
                             <Image
                               source={{ uri: item.image }}
                               resizeMode="contain"
-                              style={{ width: 100, height: 100, borderRadius: 16 }}
+                              style={{ width: 100, height: 100, borderRadius: 16, alignSelf:"center" }}
                             />
                           </View>
                         )}
@@ -119,12 +119,13 @@ const AnimatedFlatList: React.FC<AnimatedFlatListProps> = ({
                           <Text size="lg" preset="subheading" text={"$" + item.price} />
                         )}
 
-                        {item.qrcode && (
-                          <Text preset="formHelper" text={"Product Code: " + item.qrcode} />
-                        )}
+
                       </View>
-                    </View>
+
                   }
+                  FooterComponent={item.qrcode && (
+                    <Text preset="formHelper" text={"Product Code: " + item.qrcode} />
+                  )}
                 />
               </TouchableOpacity>
             )}

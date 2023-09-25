@@ -27,27 +27,3 @@ export const ScreensArray = [
 
 ];
 
-
-export const drawerMenu = [
-  {
-    title: "Settings",
-    bg: colors.tint,
-    type: Feather, icon: 'settings',
-    route: 'Settings',
-    menuList: [
-      { title: 'Change Theme', route: 'Theme' },
-      { title: 'Notify Me', route: 'Notify' },
-    ]
-  },
-  {
-    title: "Products and Services",
-    bg: colors.tint,
-    type: FontAwesome5, icon: 'servicestack',
-    route: 'Todo',
-    menuList: [
-      { title: 'Products', route: 'Product' },
-      { title: 'Services', route: 'Product' },
-      { title: 'Sleep', route: 'Product' },
-    ]
-  },
-]
