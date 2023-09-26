@@ -16,7 +16,7 @@ const DepartmentScreen = () => {
 
     <Screen preset="fixed" safeAreaEdges={["top"]} contentContainerStyle={$screenContainer}>
       <View style={{ flex: 1, gap: spacing.md }}>
-        <Text>DepartmentScreen</Text>
+        <Text  preset="heading" size="md" style={{marginLeft: spacing.sm}}>Departments Tree View</Text>
           <CustomTreeView />
       </View>
     </Screen>

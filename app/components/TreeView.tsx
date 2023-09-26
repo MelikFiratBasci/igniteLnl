@@ -1,17 +1,9 @@
-// React Native Tree View for Android and IOS devices
-// https://aboutreact.com/react-native-final-tree-view/
-import { Chip } from "react-native-elements"
-import LinearGradient from 'react-native-linear-gradient';
-// import React in our code
-import React from 'react';
-
-// import all the components we are going to use
-import { SafeAreaView, Text, View } from 'react-native';
-
-//import library for the TreeView
-import TreeView from 'react-native-final-tree-view';
+import React from "react"
+import { SafeAreaView, View, StyleSheet, ViewStyle } from "react-native"
+import TreeView from "react-native-final-tree-view"
 import { colors, spacing, themeColors } from "../theme"
-import { Entypo } from '@expo/vector-icons';
+import { Entypo } from "@expo/vector-icons"
+import { Text } from "./Text"
 
 type DataType = {
   id: string;
@@ -19,150 +11,171 @@ type DataType = {
   children?: DataType[];
 };
 
+interface CustomTreeViewProps {
+  data?: DataType[];
+}
 
-const DashLine = ({ lineWidth, level }) => {
-  const containerStyle = {
-    width: lineWidth,
-    overflow: 'hidden',
-  };
-
-  const lineStyle = {
-    width: '100%',
-    height: 2,
-    borderBottomWidth: 1,
-    borderBottomColor: 'red', // Çizgi rengini istediğiniz renge ayarlayabilirsiniz
-    borderStyle: 'dashed', // Çizgi stili
-    // Çizginin ortalama pozisyonu
-  };
-
-  return (
-    <View style={containerStyle}>
-      <View style={lineStyle}></View>
-    </View>
-  );
-};
-
-//Dummy data for the Tree View
-const state = {
+const state: CustomTreeViewProps = {
   data: [
     {
-      id: 'Parent1',
-      name: 'Parent1',
+      id: "Parent1",
+      name: "Parent1",
       children: [
         {
-          id: 'child1',
-          name: 'child1',
+          id: "child1",
+          name: "child1",
           children: [
             {
-              id: 'child11',
-              name: 'child11',
+              id: "child11",
+              name: "child11",
               children: [
                 {
-                  id: 'child111',
-                  name: 'child111',
+                  id: "child111",
+                  name: "child111",
+                  children: [
+                    { id: "asdad", name: "asdad" },
+                  ],
+                },
+                {
+                  id: "child11s1",
+                  name: "child111",
                 },
               ],
             },
             {
-              id: 'child12',
-              name: 'child12',
+              id: "child12",
+              name: "child12",
             },
           ],
         },
       ],
     },
     {
-      id: 'Parent2',
-      name: 'Parent2',
+      id: "Parent2",
+      name: "Parent2",
       children: [
         {
-          id: 'child2',
-          name: 'child2',
+          id: "child2",
+          name: "child2",
           children: [
             {
-              id: 'child21',
-              name: 'child21',
+              id: "child21",
+              name: "child21",
             },
             {
-              id: 'child22',
-              name: 'child22',
+              id: "child22",
+              name: "child22",
             },
           ],
         },
       ],
     },
     {
-      id: 'Parent3',
-      name: 'Parent3',
+      id: "Parent3",
+      name: "Parent3",
       children: [
         {
-          id: 'child3',
-          name: 'child3',
+          id: "child3",
+          name: "child3",
           children: [
             {
-              id: 'child31',
-              name: 'child31',
+              id: "child31",
+              name: "child31",
             },
             {
-              id: 'child23',
-              name: 'child32',
+              id: "child23",
+              name: "child32",
             },
           ],
         },
       ],
     },
   ],
-};
+}
 
-const getIndicator = (isExpanded, hasChildrenNodes) => {
-  if (!hasChildrenNodes) {
-    return '*';
-  } else if (isExpanded) {
-    return '-';
-  } else {
-    return '+';
+let BORDER_WIDTH = 1
+let BORDER_COLOR = colors.border
+let BORDER_STYLE = "dashed"
+let INDENTATION = 12
+
+const TreeItem = ({ node, level, isExpanded, hasChildrenNodes }) => {
+  const dashViews = []
+  for (let i = 0; i < level; i++) {
+    dashViews.push(<View key={`dash-${i}`} style={$dashVertical} />)
   }
-};
 
-const CustomTreeView = () => {
+  return (
+
+    <View style={$treeItem}>
+      {level > 0 && (
+        <>
+          <View style={$dashViews}>
+            {dashViews}
+          </View>
+          <View style={$dashHorizontal} />
+        </>
+      )}
+
+      <View style={{ flexDirection: "row", alignItems: "center", flex: 1, backgroundColor: "#ccc" }}>
+        {hasChildrenNodes ? (
+          <Entypo name={isExpanded ? "chevron-small-down" : "chevron-small-right"} size={INDENTATION * 2}
+                  color="black" />
+        ) : null}
+
+        <Text style={{
+          flex: 1,
+          paddingLeft: hasChildrenNodes ? null : spacing.xs,
+          paddingVertical: spacing.xxxs,
+        }} preset="subheading" size="xxs" text={node.name}></Text>
+      </View>
+
+    </View>
+  )
+}
+
+const CustomTreeView = ({ data }: CustomTreeViewProps) => {
+
   return (
     <SafeAreaView style={{ flex: 1 }}>
-      <View style={{ padding: 10,}}>
+      <View style={{ padding: spacing.xs }}>
         <TreeView
           data={state.data}
           renderNode={({ node, level, isExpanded, hasChildrenNodes }) => {
-            // Dash çizgi stili
-            const dashStyle = {
-              borderLeftWidth: level > 0 ? 1 : 0, // İlk seviye için border yok
-              borderLeftColor: "red", // Çizgi rengi
-              marginLeft: 46 * level, // Çizginin düzeyine bağlı olarak uzaklık
-              paddingLeft: 10, // İçerikten önce boşluk
-              flexDirection: "row",
-              alignItems: "center",
-              paddingBottom: 10,
-              borderStyle: "dashed",
-
-            };
-
-            return (
-              <View style={dashStyle}>
-
-                <DashLine lineWidth={24} level={level} />
-
-                {hasChildrenNodes ? (
-                  <Entypo name={isExpanded ? "chevron-small-down" : "chevron-small-right"} size={24} color="black" />
-                ) : null}
-
-                {/* Düğüm içeriği */}
-                <Chip title={node.name} containerStyle={{}} />
-              </View>
-            );
+            return <TreeItem node={node} level={level} isExpanded={isExpanded} hasChildrenNodes={hasChildrenNodes} />
           }}
         />
       </View>
     </SafeAreaView>
-  );
-};
+  )
+}
+
+const $dashHorizontal: any = {
+  borderBottomWidth: BORDER_WIDTH,
+  borderBottomColor: BORDER_COLOR,
+  borderStyle: BORDER_STYLE,
+  height: 1,
+  width: INDENTATION,
+}
+
+const $dashVertical: any = {
+  borderLeftWidth: BORDER_WIDTH,
+  borderLeftColor: BORDER_COLOR,
+  borderStyle: BORDER_STYLE,
+  height: INDENTATION * 2,
+  width: 1,
+}
+
+const $dashViews: any = {
+  marginLeft: INDENTATION,
+  flexDirection: "row",
+  gap: INDENTATION * 2,
+}
+
+const $treeItem: any = {
+  flexDirection: "row",
+  alignItems: "center",
+  paddingVertical: spacing.xxxs,
+}
 
 
-export default CustomTreeView;
+export default CustomTreeView
