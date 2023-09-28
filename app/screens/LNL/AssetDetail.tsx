@@ -5,11 +5,11 @@ import { Text } from "../../components"
 import { colors, spacing, typography } from "../../theme"
 import { useNavigation } from "@react-navigation/native"
 import { SpeedDial } from 'react-native-elements';
-import { removeProduct } from "../../store"
+import { removeAsset } from "../../store"
 import { useDispatch } from "react-redux"
 
 
-interface ProductDetailProps {
+interface AssetDetailProps {
   route: {
     params: {
       item: {
@@ -22,7 +22,7 @@ interface ProductDetailProps {
   };
 }
 
-const ProductDetail: React.FC<ProductDetailProps> = ({ route }) => {
+const AssetDetail: React.FC<AssetDetailProps> = ({ route }) => {
 
   const { item } = route.params
   const navigation = useNavigation()
@@ -36,7 +36,7 @@ const ProductDetail: React.FC<ProductDetailProps> = ({ route }) => {
       <View style={$sectionListContentContainer}>
         <View style={{ flexDirection: "row", gap: spacing.md }}>
           <Icon icon="back" onPress={() => navigation.goBack()} />
-          <Text style={$name} preset="header" text="Product Detail" />
+          <Text style={$name} preset="header" text="Asset Detail" />
 
         </View>
 
@@ -64,7 +64,7 @@ const ProductDetail: React.FC<ProductDetailProps> = ({ route }) => {
         <SpeedDial.Action
           buttonStyle={{backgroundColor:colors.tint, borderRadius: 100}}
           icon={{ name: 'edit', color: '#fff' }}
-            title="Edit"
+          title="Edit"
           onPress={() => console.log('Edit Something')}
         />
         <SpeedDial.Action
@@ -73,8 +73,8 @@ const ProductDetail: React.FC<ProductDetailProps> = ({ route }) => {
           title="Delete"
           onPress={() => {
             Alert.alert(
-              "Delete Product",
-              "Are you sure you want to delete this product?",
+              "Delete Asset",
+              "Are you sure you want to delete this asset?",
               [
                 {
                   text: "Cancel",
@@ -83,7 +83,7 @@ const ProductDetail: React.FC<ProductDetailProps> = ({ route }) => {
                 },
                 {
                   text: "Delete", onPress: () => {
-                    dispatch(removeProduct(item.id))
+                    dispatch(removeAsset(item.id))
                     navigation.goBack()
                   }
                 }
@@ -114,4 +114,4 @@ const $name: TextStyle = {
 }
 
 
-export default ProductDetail
+export default AssetDetail

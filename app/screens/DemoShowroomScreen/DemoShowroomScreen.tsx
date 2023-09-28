@@ -86,12 +86,13 @@ const ShowroomListItem = Platform.select({ web: WebListItem, default: NativeList
 
 export const DemoShowroomScreen: FC<DemoTabScreenProps<"DemoShowroom">> =
   function DemoShowroomScreen(_props) {
-    const [open, setOpen] = useState(false)
+
     const drawerRef = useRef<DrawerLayout>()
     const timeout = useRef<ReturnType<typeof setTimeout>>()
     const listRef = useRef<SectionList>()
     const menuRef = useRef<FlatList>()
     const progress = useSharedValue(0)
+    const [open, setOpen] = useState(false)
     const route = useRoute<RouteProp<DemoTabParamList, "DemoShowroom">>()
     const params = route.params
 

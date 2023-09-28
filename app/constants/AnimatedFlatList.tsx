@@ -13,11 +13,11 @@ import Animated, {
 } from "react-native-reanimated"
 import { colors, spacing } from "../theme"
 import { Card } from "./Card"
-import { Toggle } from "./Toggle"
-import { updateIsSelected } from "../store"
+import { updateProductIsSelected } from "../store"
 import { useDispatch, useSelector } from "react-redux"
 import { createSelector } from "@reduxjs/toolkit"
 import { CheckBox } from "react-native-elements"
+
 
 
 
@@ -28,6 +28,7 @@ interface Item {
   price?: number
   qrcode?: string
   isSelected?: boolean
+  input?: string
 }
 
 
@@ -41,7 +42,6 @@ interface AnimatedFlatListProps {
   translateY: Animated.SharedValue<number>
   scrollHandler: ReturnType<typeof useAnimatedScrollHandler>
   headerText: string
-  isSearchFormVisible: boolean
 }
 
 const AnimatedFlatList: React.FC<AnimatedFlatListProps> = ({
@@ -51,16 +51,14 @@ const AnimatedFlatList: React.FC<AnimatedFlatListProps> = ({
   onRefresh,
   scrollHandler,
   headerText,
-  onItemPress,
-                                                             isSearchFormVisible
+  onItemPress
 
 }) => {
 
   const dispatch = useDispatch()
   const keyExtractor = useCallback((item) => item.id.toString(), [])
-
-
-
+  const [inputStates, setInputStates] = useState({});
+  const [selectedStates, setSelectedStates] = useState({});
 
   const renderItem = ({ item }) => <TouchableOpacity
           activeOpacity={1}
@@ -76,10 +74,13 @@ const AnimatedFlatList: React.FC<AnimatedFlatListProps> = ({
             HeadingComponent={
               <View style={{ flexDirection: "row", alignItems: "center", justifyContent: "space-between", gap: spacing.md}}>
                 <Text style={{flex:1}} preset="subheading" size="sm" text={item.title} />
-                {isSearchFormVisible &&
-                <CheckBox checked={item.isSelected} onPress={() => {
-                  dispatch(updateIsSelected(item.id))}
-                } /> }
+                <CheckBox checked={selectedStates[item.id] || item.isSelected}  onPress={() => {
+                  setSelectedStates((prevSelectedStates) => ({
+                    ...prevSelectedStates,
+                    [item.id]: !item.isSelected,
+                  }));
+                  dispatch(updateProductIsSelected(item.id))}
+                } />
               </View>
             }
             heading={item.title}
@@ -103,6 +104,18 @@ const AnimatedFlatList: React.FC<AnimatedFlatListProps> = ({
                 {item.price && (
                   <Text size="lg" preset="subheading" text={"$" + item.price} />
                 )}
+                <TextInput
+                  style={{ borderWidth: 1 }}
+                  value={inputStates[item.id] || item.input}
+                  onChangeText={(text) => {
+                    setInputStates((prevInputStates) => ({
+                      ...prevInputStates,
+                      [item.id]: text,
+                    }));
+                    dispatch(updateInput(item.id, text));
+                  }}
+                />
+
 
               </View>
             }

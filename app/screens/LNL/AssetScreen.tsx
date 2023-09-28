@@ -6,9 +6,9 @@ import { useEffect } from "react"
 import { colors, spacing, typography } from "../../theme"
 import { useNavigation } from "@react-navigation/native" // Eksik import ekledik
 import { useDispatch, useSelector } from "react-redux"
-import { addProduct, changeProductSearchTerm, resetProducts } from "../../store/index"
+import { addAsset, changeAssetSearchTerm, resetAssets} from "../../store/index"
 import { Icon, Screen, Text } from "../../components"
-import { createSelector, current } from "@reduxjs/toolkit"
+import { createSelector } from "@reduxjs/toolkit"
 import { AntDesign } from "@expo/vector-icons"
 import Animated, {
   Easing,
@@ -16,33 +16,34 @@ import Animated, {
   useAnimatedStyle,
   useSharedValue,
   withTiming,
+
 } from "react-native-reanimated"
 
 import AnimatedFlatList from "../../components/AnimatedFlatList"
 
-const ProductScreen = () => {
+const AssetScreen = () => {
   const navigation = useNavigation()
   const dispatch = useDispatch()
 
-  const productsSelector = (state) => state.products.products
-  const searchTermSelector = (state) => state.products.searchTerm
-  const selectedItems = useSelector((state) => state.products.products.filter((item) => item.isSelected))
+  const assetsSelector = (state) => state.assets.assets
+  const searchTermSelector = (state) => state.assets.searchTerm
+  const selectedItems = useSelector((state) => state.assets.assets.filter((item) => item.isSelected))
 
-  const filteredProductsSelector = createSelector(
-    [productsSelector, searchTermSelector],
-    (products, searchTerm) => {
-      return products.filter(
-        (product) =>
-          product.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-          product.qrcode.toLowerCase().includes(searchTerm.toLowerCase()),
+  const filteredAssetsSelector = createSelector(
+    [assetsSelector, searchTermSelector],
+    (assets, searchTerm) => {
+      return assets.filter(
+        (asset) =>
+          asset.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+          asset.qrcode.toLowerCase().includes(searchTerm.toLowerCase()),
       )
     },
   )
 
-  const filteredProducts = useSelector(filteredProductsSelector)
+  const filteredAssets = useSelector(filteredAssetsSelector)
 
 
-  const searchTerm = useSelector((state: any) => state.products.searchTerm)
+  const searchTerm = useSelector((state: any) => state.assets.searchTerm)
   const [isRefreshing, setIsRefreshing] = useState(false)
 
   const lastContentOffset = useSharedValue(0)
@@ -95,45 +96,45 @@ const ProductScreen = () => {
     return result
   }
 
-  const getProducts = async () => {
+  const getAssets = async () => {
     try {
       setLoading(true)
-      dispatch(resetProducts())
+      dispatch(resetAssets())
 
       const response = await fetch("https://fakestoreapi.com/products")
       const json = await response.json()
 
-      const simplifiedProducts = json.map((product) => ({
-        id: product.id,
-        title: product.title,
-        image: product.image,
-        price: product.price,
+      const simplifiedAssets = json.map((asset) => ({
+        id: asset.id,
+        title: asset.title,
+        image: asset.image,
+        price: asset.price,
         qrcode: generateRandomString(8),
         isSelected: false,
 
       }))
 
-      dispatch(addProduct(simplifiedProducts))
+      dispatch(addAsset(simplifiedAssets))
       setLoading(false)
 
-      //      setSearchResults(simplifiedProducts)
+      //      setSearchResults(simplifiedAssets)
     } catch (error) {
       console.error(error)
     }
   }
 
   useEffect(() => {
-    getProducts()
+    getAssets()
   }, [])
 
-  // console.log(products)
+  // console.log(assets)
 
   const handleSearch = (searchTerm) => {
-    dispatch(changeProductSearchTerm(searchTerm))
+    dispatch(changeAssetSearchTerm(searchTerm))
   }
 
   const onItemPress = (item) => {
-    navigation.navigate("ProductDetail", { item })
+    navigation.navigate("AssetDetail", { item })
   }
 
 
@@ -142,38 +143,26 @@ const ProductScreen = () => {
   const toggleDrawer = () => {
 
     if (!open) {
-      console.log("testest")
-      try{
-console.log("NAV",navigation)
-        navigation.
-        navigation.openDrawer({ speed: 2 })
-        setOpen(true)
-
-        console.log("testest",open)
-      }catch (error){
-        console.error("error",error)
-      }
+      setOpen(true)
+      navigation.openDrawer({ speed: 2 })
     } else {
       setOpen(false)
 
       navigation.closeDrawer({ speed: 2 })
     }
-    console.log("testest",open)
   }
 
- const [isSearchFormVisible, setIsSearchFormVisible] = useState(false)
+  const [isSearchFormVisible, setIsSearchFormVisible] = useState(false)
 
   return (
     <Screen  preset="fixed" safeAreaEdges={["top"]} contentContainerStyle={$screenContainer}>
       <View style={{ flex: 1, gap: spacing.md }}>
         <View style={{ flexDirection: "row", alignItems:"center", marginLeft: spacing.md, gap: spacing.md, marginTop: spacing.md}}>
-          <TouchableOpacity onPress={toggleDrawer}>
-            <Icon icon="menu" />
-          </TouchableOpacity>
-          <Text style={[$name,{flex:1}]} preset="header" text="Products" />
+          <Icon icon="menu" onPress={toggleDrawer} />
+          <Text style={[$name,{flex:1}]} preset="header" text="Assets" />
           <Text style={[$name,{marginRight:spacing.md}]} preset="header" text={selectedItems.length.toString()} />
           <TouchableOpacity onPress={()=>{
-          setIsSearchFormVisible(!isSearchFormVisible)
+            setIsSearchFormVisible(!isSearchFormVisible)
           }}>
             <Text style={[$name,{marginRight:spacing.md}]} preset="header" text={isSearchFormVisible ? "İptal" : "Seç"} />
           </TouchableOpacity>
@@ -189,25 +178,25 @@ console.log("NAV",navigation)
           <View style={$contentContainer}>
             <AnimatedFlatList // Animasyonlu FlatList kullanımı
               isSearchFormVisible={isSearchFormVisible}
-              data={filteredProducts}
+              data={filteredAssets}
               loading={loading}
               isRefreshing={isRefreshing}
               onRefresh={() => {
                 setIsRefreshing(true)
-                getProducts()
+                getAssets()
                 setIsRefreshing(false)
               }}
               onItemPress={onItemPress}
               onSearch={handleSearch}
               translateY={translateY}
               scrollHandler={scrollHandler}
-              headerText="Products are Listed"
+              headerText="Assets are Listed"
             />
 
             <Animated.View style={[$action, addButtonStyle]}>
               <TouchableOpacity
                 onPress={() => {
-                  navigation.navigate("ProductAdd")
+                  navigation.navigate("AssetAdd")
                 }}
               >
                 <AntDesign name="pluscircle" size={48} color={colors.tint} />
@@ -220,7 +209,7 @@ console.log("NAV",navigation)
   )
 }
 
-export default ProductScreen
+export default AssetScreen
 
 const $action: ViewStyle = {
   alignItems: "center",

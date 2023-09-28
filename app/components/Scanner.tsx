@@ -6,11 +6,15 @@ import * as Animatable from "react-native-animatable"
 import { Text } from "../components"
 import { useNavigation } from "@react-navigation/native"
 import { colors } from "../theme"
+import { useSelector } from "react-redux"
 
-const Scanner = ({ visible, setModalVisible, search, products }) => {
+const Scanner = ({ visible, setModalVisible, search }) => {
   const [hasPermission, setHasPermission] = useState(null)
   const [scanned, setScanned] = useState(false)
   const navigation = useNavigation()
+
+  const productsSelector = (state) => state.products.products
+  const products = useSelector(productsSelector)
 
   useEffect(() => {
     (async () => {
@@ -26,15 +30,15 @@ const Scanner = ({ visible, setModalVisible, search, products }) => {
 
 
   const handleBarCodeScanned = ({ type, data }) => {
-    setScanned(true)
+
     if (search) {
       const item = findProductByQRCode(data);
       if(item){
-
         navigation.navigate("ProductDetail", { item })
+        setModalVisible(false)
 
     } else {
-
+      setScanned(true)
       console.log(data, type)
       return data
     }

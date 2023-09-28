@@ -24,6 +24,9 @@ import DrawerNavigator from "./DrawerNavigator"
 import Toast from "react-native-toast-message"
 import ProductAdd from "../screens/LNL/ProductAdd"
 import ProductDetail from "../screens/LNL/ProductDetail"
+import AssetAdd from "../screens/LNL/AssetAdd"
+import AssetDetail from "../screens/LNL/AssetDetail"
+import AssetScreen from "../screens/LNL/AssetScreen"
 
 
 
@@ -86,8 +89,6 @@ const AppStack = observer(function AppStack() {
           <Stack.Screen name="Welcome" component={Screens.WelcomeScreen} />
           {/* @demo remove-block-start */}
           <Stack.Screen name="Demo" component={DemoNavigator} />
-          <Stack.Screen name="ProductDetail" component={ProductDetail} />
-          <Stack.Screen name="ProductAdd" component={ProductAdd} />
         </>
       ) : (
         <>
@@ -95,8 +96,6 @@ const AppStack = observer(function AppStack() {
         </>
       )}
       {/* @demo remove-block-end */}
-      {/** 🔥 Your screens go here */}
-
       {/* IGNITE_GENERATOR_ANCHOR_APP_STACK_SCREENS */}
     </Stack.Navigator>
   )

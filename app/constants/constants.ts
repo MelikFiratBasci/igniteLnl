@@ -6,6 +6,7 @@ import { Icons } from "../components/Icons"
 import Feather from "react-native-vector-icons/Feather"
 import DepartmentScreen from "../screens/LNL/DepartmentScreen"
 import WarningScreen from "../screens/LNL/WarningScreen"
+import AssetScreen from "../screens/LNL/AssetScreen"
 
 export const constant = {
   SPACING: 16,
@@ -19,8 +20,9 @@ export const IconSize = 24
 
 export const ScreensArray = [
   { route: 'Home', label: "Home", type: AntDesign, icon: 'home', component: HomeScreen},
-  { route: 'Product', label: "Product", type:FontAwesome, icon: 'product-hunt', component: ProductScreen, subMenu: [
-      { route: 'Product', label: "Product", type:FontAwesome, icon: 'product-hunt', component: ProductScreen},
+  { route: 'Product', label: "Products and Services", type:FontAwesome, icon: 'product-hunt', component: ProductScreen, subMenu: [
+      { route: 'ProductScreen',label: "Products"},
+      { route: 'AssetScreen', label: "Assets"},
     ]},
   { route: 'Departments', label: "Departments", type: FontAwesome, icon: 'users', component: DepartmentScreen},
   { route: 'Warnings', label: "Warnings", type: Entypo, icon: 'warning', component: WarningScreen},

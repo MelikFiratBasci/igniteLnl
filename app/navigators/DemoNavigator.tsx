@@ -11,10 +11,11 @@ import { AppStackParamList, AppStackScreenProps } from "./AppNavigator"
 import DrawerNavigator from "./DrawerNavigator"
 import { AntDesign } from "@expo/vector-icons"
 import ProductScreen from "../screens/LNL/ProductScreen"
+import { DrawerStackNavigator } from "./DrawerStackNavigator"
 
 
 export type DemoTabParamList = {
-  DrawerNavigator: undefined
+  DrawerStackNavigator: undefined
   DemoCommunity: undefined
   DemoShowroom: { queryIndex?: string; itemIndex?: string }
   DemoPodcastList: undefined
@@ -51,8 +52,8 @@ export function DemoNavigator() {
       }}
     >
       <Tab.Screen
-        name="DrawerNavigator"
-        component={DrawerNavigator}
+        name="DrawerStackNavigator"
+        component={DrawerStackNavigator}
         options={{
           tabBarLabel: "Drawer Home",
           tabBarIcon: ({ focused }) => (

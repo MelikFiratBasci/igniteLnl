@@ -95,7 +95,7 @@ const state: CustomTreeViewProps = {
 
 let BORDER_WIDTH = 1
 let BORDER_COLOR = colors.border
-let BORDER_STYLE = "dashed"
+let BORDER_STYLE = "solid"
 let INDENTATION = 12
 
 const TreeItem = ({ node, level, isExpanded, hasChildrenNodes }) => {

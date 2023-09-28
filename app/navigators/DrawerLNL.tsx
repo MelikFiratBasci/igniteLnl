@@ -1,14 +1,16 @@
 import { Alert, Image, LayoutAnimation, StyleSheet, TouchableOpacity, View } from "react-native"
-import React, { useState } from "react"
+import React, { useRef, useState } from "react"
 import { DrawerContentScrollView, DrawerItemList } from "@react-navigation/drawer"
 import { colors, spacing, themeColors } from "../theme"
 import { Text } from "../components/Text"
 import Icon from "../components/Icons"
-import { AntDesign, MaterialIcons } from "@expo/vector-icons"
-import { DemoDivider } from "../screens/DemoShowroomScreen/DemoDivider"
+import { MaterialIcons } from "@expo/vector-icons"
 import { constant } from "../constants/constants"
 import { Entypo } from "@expo/vector-icons"
 import { useStores } from "../models"
+import { DrawerState } from "react-native-gesture-handler"
+import { useSharedValue, withTiming } from "react-native-reanimated"
+import { useNavigation } from "@react-navigation/native"
 
 
 const DrawerItem = ({
@@ -28,12 +30,11 @@ const DrawerItem = ({
 
   const [subMenuIndex, setSubMenuIndex] = useState(subMenu && subMenu.length > 0 ? subMenu.findIndex((item) => item.active) : -1)
 
-  // if there is a subMenu, onPress will be handled by onSubMenuPress
+  const navigation = useNavigation()
+
   return (
 
-
     LayoutAnimation.configureNext(LayoutAnimation.create(100, "easeInEaseOut", "opacity")),
-
 
       <TouchableOpacity
         onPress={subMenu && subMenu.length > 0 ? onSubMenuPress : onPress}
@@ -45,6 +46,7 @@ const DrawerItem = ({
         <View style={[styles.drawerItem]}>
           <Icon type={type} name={name} style={{ marginRight: spacing.md }} color={iconColor}></Icon>
           <Text style={{ color, flex: 1, fontWeight: '700' }} preset="heading" size="sm">{label} </Text>
+
           {subMenu && subMenu.length > 0 && (
             <MaterialIcons style={{ color }} name={openSubMenu ? "arrow-drop-up" : "arrow-drop-down"} size={24} />
           )}
@@ -63,17 +65,16 @@ const DrawerItem = ({
               const isFocusedSubMenu = subMenuIndex === index
               const color = isFocused ? colors.text : colors.textDim
               const backgroundColor = isFocused && isFocusedSubMenu ? themeColors.primaryAlt : themeColors.sidebar.menuItemBgActive
-
+              console.log("SubMenu",item.route)
               return (
                 <TouchableOpacity
                   style={{ marginBottom: spacing.sm, padding: spacing.xs, backgroundColor, borderRadius: spacing.sm }}
                   key={index} onPress={() => {
 
-                  onPress(item.route)
+                  navigation.navigate(item.route)
                   setSubMenuIndex(index)
-
                   console.log("subMenuIndex", subMenuIndex)
-                  // then close subMenu
+
 
                 }
                 }>
@@ -91,13 +92,16 @@ const DrawerItem = ({
 
 const DrawerLNL = (props) => {
 
+
+  // if there is a subMenu, onPress will be handled by onSubMenuPress
+
+
   const {
     authenticationStore: { logout },
   } = useStores()
 
   const { state, descriptors, navigation } = props
   const [openSubMenu, setOpenSubMenu] = useState(null)
-
 
 
   return (
@@ -111,6 +115,7 @@ const DrawerLNL = (props) => {
           <View style={styles.textContainer}>
             <Text preset="heading" size="md">İlker Tuna TUZCU</Text>
             <Text preset="subheading" size="xxs">Software Engineer</Text>
+
           </View>
 
         </View>
