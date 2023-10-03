@@ -26,11 +26,15 @@ const DrawerItem = ({
                       openSubMenu,
                       onSubMenuPress,
                       isFocused,
+  navigation,
                     }) => {
 
-  const [subMenuIndex, setSubMenuIndex] = useState(subMenu && subMenu.length > 0 ? subMenu.findIndex((item) => item.active) : -1)
+  // const [subMenuIndex, setSubMenuIndex] = useState(subMenu && subMenu.length > 0 ? subMenu.findIndex((item) => item.active) : -1)
 
-  const navigation = useNavigation()
+
+
+  const [selectedSubMenuIndex, setSelectedSubMenuIndex] = useState(null)
+
 
   return (
 
@@ -45,7 +49,7 @@ const DrawerItem = ({
       >
         <View style={[styles.drawerItem]}>
           <Icon type={type} name={name} style={{ marginRight: spacing.md }} color={iconColor}></Icon>
-          <Text style={{ color, flex: 1, fontWeight: '700' }} preset="heading" size="sm">{label} </Text>
+          <Text style={{ color, flex: 1, fontWeight: "700" }} preset="heading" size="sm">{label} </Text>
 
           {subMenu && subMenu.length > 0 && (
             <MaterialIcons style={{ color }} name={openSubMenu ? "arrow-drop-up" : "arrow-drop-down"} size={24} />
@@ -62,18 +66,23 @@ const DrawerItem = ({
             marginBottom: spacing.sm,
           }}>
             {subMenu.map((item, index) => {
-              const isFocusedSubMenu = subMenuIndex === index
-              const color = isFocused ? colors.text : colors.textDim
-              const backgroundColor = isFocused && isFocusedSubMenu ? themeColors.primaryAlt : themeColors.sidebar.menuItemBgActive
-              console.log("SubMenu",item.route)
+
+              const isFocusedSubMenuItem = selectedSubMenuIndex === index
+              const activeItemColor = isFocused && isFocusedSubMenuItem ? themeColors.sidebar.menuItemColor : null
+
+
+
               return (
                 <TouchableOpacity
-                  style={{ marginBottom: spacing.sm, padding: spacing.xs, backgroundColor, borderRadius: spacing.sm }}
+                  style={{
+                    marginBottom: spacing.sm,
+                    padding: spacing.xs,
+                    backgroundColor: activeItemColor,
+                    borderRadius: spacing.sm,
+                  }}
                   key={index} onPress={() => {
-
+                  setSelectedSubMenuIndex(index)
                   navigation.navigate(item.route)
-                  setSubMenuIndex(index)
-                  console.log("subMenuIndex", subMenuIndex)
 
 
                 }
@@ -122,10 +131,10 @@ const DrawerLNL = (props) => {
       </TouchableOpacity>
 
       {/*drawerList Item*/}
-      <DrawerContentScrollView {...props}  contentContainerStyle={{paddingTop:0}} style={[styles.view]}>
+      <DrawerContentScrollView {...props} contentContainerStyle={{ paddingTop: 0 }} style={[styles.view]}>
 
         {state.routes.map((route, i) => {
-
+console.log("BİG STATE", state)
           const isFocused = state.index === i
           const { options } = descriptors[route.key]
 
@@ -148,6 +157,8 @@ const DrawerLNL = (props) => {
             if (!isFocused && !event.defaultPrevented) {
               navigation.navigate(route.name)
             }
+            setOpenSubMenu(null)
+
           }
           console.log(options)
 
@@ -158,22 +169,24 @@ const DrawerLNL = (props) => {
           const activeItemColor = isFocused ? themeColors.sidebar.menuItemBgActive : null
 
           return (
-            <DrawerItem
-              key={i}
-              label={drawerItem.label}
-              name={drawerItem.icon}
-              tabBarTestID={drawerItem.tabBarTestID}
-              onPress={onPress}
-              type={drawerItem.type}
-              subMenu={drawerItem.subMenu}
-              color={color}
-              iconColor={iconColor}
-              activeItemColor={activeItemColor}
-              isFocused={isFocused}
-              openSubMenu={openSubMenu === i} // Sub menü açık mı?
-              onSubMenuPress={() => onSubMenuPress(i)} // Sub menüyü aç/kapat
+            drawerItem ? (
+              <DrawerItem
+                key={i}
+                label={drawerItem?.label}
+                name={drawerItem?.icon}
+                tabBarTestID={drawerItem?.tabBarTestID}
+                onPress={onPress}
+                type={drawerItem?.type}
+                subMenu={drawerItem?.subMenu}
+                color={color}
+                iconColor={iconColor}
+                activeItemColor={activeItemColor}
+                isFocused={isFocused}
+                navigation={navigation}
+                openSubMenu={openSubMenu === i} // Sub menü açık mı?
+                onSubMenuPress={() => onSubMenuPress(i)} // Sub menüyü aç/kapat
 
-            />)
+              />) : null)
         })}
 
       </DrawerContentScrollView>
@@ -182,30 +195,30 @@ const DrawerLNL = (props) => {
       <View style={[styles.footer, styles.view]}>
         <View style={{ flexDirection: "row", flex: 1, alignItems: "center" }}>
           <Image source={require("./../../assets/images/logo192.png")} style={styles.logo} resizeMode="contain" />
-          <Image source={require("./../../assets/images/logoAyanet.png")} style={[styles.logo,{marginLeft: spacing.sm}]} resizeMode="contain" />
+          <Image source={require("./../../assets/images/logoAyanet.png")}
+                 style={[styles.logo, { marginLeft: spacing.sm }]} resizeMode="contain" />
           <View style={styles.footerView}>
             <Entypo name="language" size={24} color={colors.textDim} />
 
             <TouchableOpacity
               onPress={() => {
                 Alert.alert(
-
-                  'Çıkış Yap',
-                  'Çıkış yapmak istediğinize emin misiniz?',
+                  "Çıkış Yap",
+                  "Çıkış yapmak istediğinize emin misiniz?",
                   [
                     {
-                      text: 'İptal',
-                      style: 'cancel',
+                      text: "İptal",
+                      style: "cancel",
                     },
                     {
-                      text: 'Çıkış Yap',
+                      text: "Çıkış Yap",
                       onPress: () => {
-                        logout();
+                        logout()
                       },
                     },
                   ],
-                  { cancelable: false }
-                );
+                  { cancelable: false },
+                )
               }}
             >
               <MaterialIcons style={{ marginLeft: spacing.sm }} name="logout" size={24} color={colors.textDim} />

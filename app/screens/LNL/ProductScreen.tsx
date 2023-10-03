@@ -145,7 +145,7 @@ const ProductScreen = () => {
       console.log("testest")
       try{
 console.log("NAV",navigation)
-        navigation.
+
         navigation.openDrawer({ speed: 2 })
         setOpen(true)
 

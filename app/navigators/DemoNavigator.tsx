@@ -52,8 +52,8 @@ export function DemoNavigator() {
       }}
     >
       <Tab.Screen
-        name="DrawerStackNavigator"
-        component={DrawerStackNavigator}
+        name="DrawerNavigator"
+        component={DrawerNavigator}
         options={{
           tabBarLabel: "Drawer Home",
           tabBarIcon: ({ focused }) => (

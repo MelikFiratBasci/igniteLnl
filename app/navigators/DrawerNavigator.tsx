@@ -4,15 +4,17 @@ import { ScreensArray, constant } from "../constants/constants"
 import { StyleSheet } from "react-native"
 import DrawerLNL from "./DrawerLNL"
 import { DrawerStackNavigator } from "./DrawerStackNavigator"
+import ProductScreen from "../screens/LNL/ProductScreen"
+import { createStackNavigator } from "@react-navigation/stack"
 
 const Drawer = createDrawerNavigator()
+const Stack = createStackNavigator()
 
 const DrawerNavigator = () => {
   return (
 
     <Drawer.Navigator
       screenOptions={{
-
         drawerStyle: styles.drawerStyles,
         headerShown: false,
 
@@ -22,13 +24,21 @@ const DrawerNavigator = () => {
 
     >
       {ScreensArray.map((item, index) => (
-        console.log("ASDASD", item),
           <Drawer.Screen key={index} name={item.route} component={item.component}
-
                          options={{
                            item,
+                         }} />)
 
-                         }} />))}
+      )}
+
+      {ScreensArray.map((item) => (
+      item.hasOwnProperty("subMenu") ? item.subMenu.map((subItem, subIndex) => (
+        <Drawer.Screen key={subIndex} name={subItem.route} component={subItem.component}
+                        options={{
+                          subItem,
+                        }}
+       />)) : null
+      ))}
     </Drawer.Navigator>
   )
 }

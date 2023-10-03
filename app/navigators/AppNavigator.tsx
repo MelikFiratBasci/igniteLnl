@@ -83,7 +83,7 @@ const AppStack = observer(function AppStack() {
     >
       {/* @demo remove-block-start */}
 
-      {isAuthenticated ? (
+      {true ? (
         <>
           {/* @demo remove-block-end */}
           <Stack.Screen name="Welcome" component={Screens.WelcomeScreen} />
