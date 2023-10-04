@@ -134,7 +134,7 @@ const DrawerLNL = (props) => {
       <DrawerContentScrollView {...props} contentContainerStyle={{ paddingTop: 0 }} style={[styles.view]}>
 
         {state.routes.map((route, i) => {
-console.log("BİG STATE", state)
+
           const isFocused = state.index === i
           const { options } = descriptors[route.key]
 
@@ -160,7 +160,7 @@ console.log("BİG STATE", state)
             setOpenSubMenu(null)
 
           }
-          console.log(options)
+        // console.log(options)
 
           const color = isFocused ? colors.text : colors.textDim
           const iconColor = isFocused ? themeColors.sidebar.menuItemColor : colors.textDim

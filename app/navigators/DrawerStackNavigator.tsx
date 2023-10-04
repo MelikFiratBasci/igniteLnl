@@ -56,13 +56,9 @@ const DrawerStack = observer(function DrawerStack() {
       <>
         {/* @demo remove-block-end */}
         <Stack.Screen name="DrawerNavigator" component={DrawerNavigator} />
-
-        <Stack.Screen name="ProductScreen" component={ProductScreen} />
-        <Stack.Screen name="ProductDetail" component={ProductDetail} />
-        <Stack.Screen name="ProductAdd" component={ProductAdd} />
         <Stack.Screen name="AssetScreen" component={AssetScreen} />
-        <Stack.Screen name="AssetAdd" component={AssetAdd} />
-        <Stack.Screen name="AssetDetail" component={AssetDetail} />
+        <Stack.Screen name="ProductScreen" component={ProductScreen} />
+
 
       </>
 

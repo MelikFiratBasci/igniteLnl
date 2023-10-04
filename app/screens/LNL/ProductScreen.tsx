@@ -18,7 +18,7 @@ import Animated, {
   withTiming,
 } from "react-native-reanimated"
 
-import AnimatedFlatList from "../../components/AnimatedFlatList"
+import ProductAnimatedFlatList from "../../components/ProductAnimatedFlatList"
 
 const ProductScreen = () => {
   const navigation = useNavigation()
@@ -187,7 +187,7 @@ console.log("NAV",navigation)
           </View>
         ) : (
           <View style={$contentContainer}>
-            <AnimatedFlatList // Animasyonlu FlatList kullanımı
+            <ProductAnimatedFlatList // Animasyonlu FlatList kullanımı
               isSearchFormVisible={isSearchFormVisible}
               data={filteredProducts}
               loading={loading}

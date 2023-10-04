@@ -13,23 +13,22 @@ import Animated, {
 } from "react-native-reanimated"
 import { colors, spacing } from "../theme"
 import { Card } from "./Card"
-import { updateProductIsSelected } from "../store"
+import { Toggle } from "./Toggle"
+import { updateAssetIsSelected, updateIsSelected } from "../store"
 import { useDispatch, useSelector } from "react-redux"
 import { createSelector } from "@reduxjs/toolkit"
 import { CheckBox } from "react-native-elements"
 
-
-
-
 interface Item {
-  id: number
-  name: string
-  title: string
-  image?: string
-  price?: number
-  qrcode?: string
+  id: number;
+  name: string;
+  updatedTime?: string;
+  epc: string;
+  qrCode: string;
+  image?: string;
+  detailedName: string
+  serialNo: string
   isSelected?: boolean
-  input?: string
 }
 
 
@@ -43,23 +42,26 @@ interface AnimatedFlatListProps {
   translateY: Animated.SharedValue<number>
   scrollHandler: ReturnType<typeof useAnimatedScrollHandler>
   headerText: string
+  isSearchFormVisible: boolean
 }
 
-const AnimatedFlatList: React.FC<AnimatedFlatListProps> = ({
+const ProductAnimatedFlatList: React.FC<AnimatedFlatListProps> = ({
   data,
   loading,
   isRefreshing,
   onRefresh,
   scrollHandler,
   headerText,
-  onItemPress
+  onItemPress,
+                                                             isSearchFormVisible
 
 }) => {
 
   const dispatch = useDispatch()
   const keyExtractor = useCallback((item) => item.id.toString(), [])
-  const [inputStates, setInputStates] = useState({});
-  const [selectedStates, setSelectedStates] = useState({});
+
+
+  console.log("dataASDFSADASD\n", data)
 
   const renderItem = ({ item }) => <TouchableOpacity
           activeOpacity={1}
@@ -74,17 +76,13 @@ const AnimatedFlatList: React.FC<AnimatedFlatListProps> = ({
           <Card
             HeadingComponent={
               <View style={{ flexDirection: "row", alignItems: "center", justifyContent: "space-between", gap: spacing.md}}>
-                <Text style={{flex:1}} preset="subheading" size="sm" text={item.title} />
-                <CheckBox checked={selectedStates[item.id] || item.isSelected}  onPress={() => {
-                  setSelectedStates((prevSelectedStates) => ({
-                    ...prevSelectedStates,
-                    [item.id]: !item.isSelected,
-                  }));
-                  dispatch(updateProductIsSelected(item.id))}
-                } />
+                <Text style={{flex:1}} preset="subheading" size="sm" text={item.name} />
+                {isSearchFormVisible &&
+                <CheckBox checked={item.isSelected} onPress={() => {
+                  dispatch(updateAssetIsSelected(item.id))}
+                } /> }
               </View>
             }
-            heading={item.title}
             ContentComponent={
               <View style={{ gap: 16}}>
                 {item.image && (
@@ -102,26 +100,19 @@ const AnimatedFlatList: React.FC<AnimatedFlatListProps> = ({
                     />
                   </View>
                 )}
-                {item.price && (
-                  <Text size="lg" preset="subheading" text={"$" + item.price} />
-                )}
-                <TextInput
-                  style={{ borderWidth: 1 }}
-                  value={inputStates[item.id] || item.input}
-                  onChangeText={(text) => {
-                    setInputStates((prevInputStates) => ({
-                      ...prevInputStates,
-                      [item.id]: text,
-                    }));
-                    dispatch(updateInput(item.id, text));
-                  }}
-                />
 
 
               </View>
             }
-            FooterComponent={item.qrcode && (
-              <Text preset="formHelper" text={"Product Code: " + item.qrcode} />
+            FooterComponent={item.id && (
+              <View style={{padding: spacing.xs, gap: spacing.xxs}}>
+              <Text preset="formHelper"  text={"detailedName: " + item.detailedName} />
+              <Text preset="formHelper" text={"EPC: " + item.epc} />
+                <Text preset="formHelper" text={"Seri Numara : " + item.serialNo} />
+              <Text preset="formHelper" text={"Güncelleme Zamanı: " + item.updatedTime} />
+                <Text preset="formHelper" text={"QR CODE: " + item.qrCode} />
+              <Text preset="formHelper" text={"Id: " + item.id} />
+              </View>
             )}
           />
         </TouchableOpacity>
@@ -168,7 +159,7 @@ const AnimatedFlatList: React.FC<AnimatedFlatListProps> = ({
   )
 }
 
-export default AnimatedFlatList
+export default ProductAnimatedFlatList
 
 const $contentContainer: ViewStyle = {
   flex: 1,

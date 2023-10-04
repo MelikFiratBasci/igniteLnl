@@ -29,14 +29,17 @@ const AssetAdd = () => {
   const [title, setName] = React.useState("")
   const [price, setPrice] = React.useState("")
   const [qrcode, setQrCode] = React.useState("")
+  const [serialNo, setSerialNo] = React.useState("")
   const [image, setImage] = useState("")
 
   const asset = [{
     id: Math.random().toString(),
     title: title,
+    serialNo: serialNo,
     image: image,
     price: price,
     qrcode: qrcode,
+
   }]
 
   const pickImage = async () => {
@@ -167,10 +170,9 @@ const AssetAdd = () => {
             ContentComponent={
               <View style={{ gap: spacing.md }}>
                 <TextField label="Asset Name" value={title} onChangeText={setName}></TextField>
+                <TextField label="Asset Serial No" value={serialNo} onChangeText={setSerialNo}></TextField>
                 <TextField label="Price" value={price} onChangeText={setPrice}></TextField>
-                <TextField label="Price" value={price} onChangeText={setPrice}></TextField>
-                <TextField label="Price" value={price} onChangeText={setPrice}></TextField>
-                <TextField label="Price" value={price} onChangeText={setPrice}></TextField>
+
 
                 <TextField
                   label="Barcode"

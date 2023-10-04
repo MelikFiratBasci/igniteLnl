@@ -1,15 +1,16 @@
 /* eslint-disable react/jsx-key */
-import React, { useCallback, useRef, useState } from "react"
-import { View, TouchableOpacity, ViewStyle, ActivityIndicator, TextStyle } from "react-native"
+import React, { useCallback, useContext, useRef, useState } from "react"
+import { View, TouchableOpacity, ViewStyle, ActivityIndicator, TextStyle, Button, FlatList } from "react-native"
 import SearchBar from "../../components/SearchBar"
 import { useEffect } from "react"
 import { colors, spacing, typography } from "../../theme"
-import { useNavigation } from "@react-navigation/native" // Eksik import ekledik
+import { useNavigation } from "@react-navigation/native"
 import { useDispatch, useSelector } from "react-redux"
-import { addAsset, changeAssetSearchTerm, resetAssets} from "../../store/index"
+import { changeAssetSearchTerm, resetAssets } from "../../store/index"
 import { Icon, Screen, Text } from "../../components"
 import { createSelector } from "@reduxjs/toolkit"
 import { AntDesign } from "@expo/vector-icons"
+
 import Animated, {
   Easing,
   useAnimatedScrollHandler,
@@ -19,11 +20,17 @@ import Animated, {
 
 } from "react-native-reanimated"
 
-import AnimatedFlatList from "../../components/AnimatedFlatList"
+import ProductAnimatedFlatList from "../../components/ProductAnimatedFlatList"
+import { fetchAssets } from "../../store/actions"
+import { Context as AuthContext } from "../../context/AuthContext"
+import AssetAnimatedFlatList from "../../components/AssetAnimatedFlatList"
 
 const AssetScreen = () => {
   const navigation = useNavigation()
   const dispatch = useDispatch()
+
+  const authContext = useContext(AuthContext)
+  const accessToken = authContext.state.accessToken
 
   const assetsSelector = (state) => state.assets.assets
   const searchTermSelector = (state) => state.assets.searchTerm
@@ -34,14 +41,11 @@ const AssetScreen = () => {
     (assets, searchTerm) => {
       return assets.filter(
         (asset) =>
-          asset.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-          asset.qrcode.toLowerCase().includes(searchTerm.toLowerCase()),
-      )
+          asset.id.toLowerCase().includes(searchTerm.toLowerCase())) || asset.name.toLowerCase().includes(searchTerm.toLowerCase())
     },
   )
 
-  const filteredAssets = useSelector(filteredAssetsSelector)
-
+   const filteredAssets = useSelector(filteredAssetsSelector)
 
   const searchTerm = useSelector((state: any) => state.assets.searchTerm)
   const [isRefreshing, setIsRefreshing] = useState(false)
@@ -84,50 +88,23 @@ const AssetScreen = () => {
     },
   })
 
-  function generateRandomString(length) {
-    const characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789"
-    let result = ""
-
-    for (let i = 0; i < length; i++) {
-      const randomIndex = Math.floor(Math.random() * characters.length)
-      result += characters.charAt(randomIndex)
-    }
-
-    return result
-  }
-
   const getAssets = async () => {
     try {
       setLoading(true)
       dispatch(resetAssets())
-
-      const response = await fetch("https://fakestoreapi.com/products")
-      const json = await response.json()
-
-      const simplifiedAssets = json.map((asset) => ({
-        id: asset.id,
-        title: asset.title,
-        image: asset.image,
-        price: asset.price,
-        qrcode: generateRandomString(8),
-        isSelected: false,
-
-      }))
-
-      dispatch(addAsset(simplifiedAssets))
+      await dispatch(fetchAssets(accessToken))
       setLoading(false)
-
-      //      setSearchResults(simplifiedAssets)
     } catch (error) {
       console.error(error)
     }
   }
 
+
   useEffect(() => {
     getAssets()
-  }, [])
+  }, [dispatch])
 
-  // console.log(assets)
+// console.log(assets)
 
   const handleSearch = (searchTerm) => {
     dispatch(changeAssetSearchTerm(searchTerm))
@@ -155,35 +132,43 @@ const AssetScreen = () => {
   const [isSearchFormVisible, setIsSearchFormVisible] = useState(false)
 
   return (
-    <Screen  preset="fixed" safeAreaEdges={["top"]} contentContainerStyle={$screenContainer}>
+    <Screen preset="fixed" safeAreaEdges={["top"]} contentContainerStyle={$screenContainer}>
       <View style={{ flex: 1, gap: spacing.md }}>
-        <View style={{ flexDirection: "row", alignItems:"center", marginLeft: spacing.md, gap: spacing.md, marginTop: spacing.md}}>
+        <View style={{
+          flexDirection: "row",
+          alignItems: "center",
+          marginLeft: spacing.md,
+          gap: spacing.md,
+          marginTop: spacing.md,
+        }}>
           <Icon icon="menu" onPress={toggleDrawer} />
-          <Text style={[$name,{flex:1}]} preset="header" text="Assets" />
-          <Text style={[$name,{marginRight:spacing.md}]} preset="header" text={selectedItems.length.toString()} />
-          <TouchableOpacity onPress={()=>{
+          <Text style={[$name, { flex: 1 }]} preset="header" text="Assets" />
+          <Text style={[$name, { marginRight: spacing.md }]} preset="header" text={selectedItems.length.toString()} />
+          <TouchableOpacity onPress={() => {
             setIsSearchFormVisible(!isSearchFormVisible)
           }}>
-            <Text style={[$name,{marginRight:spacing.md}]} preset="header" text={isSearchFormVisible ? "İptal" : "Seç"} />
+            <Text style={[$name, { marginRight: spacing.md }]} preset="header"
+                  text={isSearchFormVisible ? "İptal" : "Seç"} />
           </TouchableOpacity>
 
         </View>
         <SearchBar onSearch={handleSearch} searchTerm={searchTerm} />
-
         {loading ? (
           <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
             <ActivityIndicator size="large" color={colors.tint} />
           </View>
         ) : (
           <View style={$contentContainer}>
-            <AnimatedFlatList // Animasyonlu FlatList kullanımı
+            <AssetAnimatedFlatList // Animasyonlu FlatList kullanımı
               isSearchFormVisible={isSearchFormVisible}
               data={filteredAssets}
               loading={loading}
               isRefreshing={isRefreshing}
               onRefresh={() => {
                 setIsRefreshing(true)
-                getAssets()
+                getAssets().then(r =>
+                  console.log("refreshed")
+                )
                 setIsRefreshing(false)
               }}
               onItemPress={onItemPress}

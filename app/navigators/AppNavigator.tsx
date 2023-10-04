@@ -83,7 +83,7 @@ const AppStack = observer(function AppStack() {
     >
       {/* @demo remove-block-start */}
 
-      {true ? (
+      {isAuthenticated ? (
         <>
           {/* @demo remove-block-end */}
           <Stack.Screen name="Welcome" component={Screens.WelcomeScreen} />
@@ -96,7 +96,10 @@ const AppStack = observer(function AppStack() {
         </>
       )}
       {/* @demo remove-block-end */}
-      {/* IGNITE_GENERATOR_ANCHOR_APP_STACK_SCREENS */}
+      <Stack.Screen name="ProductDetail" component={ProductDetail} />
+      <Stack.Screen name="ProductAdd" component={ProductAdd} />
+      <Stack.Screen name="AssetAdd" component={AssetAdd} />
+      <Stack.Screen name="AssetDetail" component={AssetDetail} />
     </Stack.Navigator>
   )
 })

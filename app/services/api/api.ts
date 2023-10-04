@@ -3,6 +3,8 @@ import Config from "../../config"
 import { GeneralApiProblem, getGeneralApiProblem } from "./apiProblem"
 import type { EpisodeSnapshotIn } from "../../models/Episode"
 import axios, { AxiosRequestConfig } from "axios"
+import { createAsyncThunk } from "@reduxjs/toolkit"
+
 
 export const DEFAULT_API_CONFIG: ApiConfig = {
   url: Config.API_URL,
@@ -91,8 +93,7 @@ export class Api {
 
       // Burada axios veya apisauce gibi HTTP istemcisini kullanarak isteği gönderin
       const response: ApiResponse<T, U> = await axios.post(url, data, customAxiosConfig)
-
-      console.log("API isteği başarılı:", response)
+      console.log("API isteği başarılı:")
       // Başarılı bir yanıtı döndürün
       return {
         data: response.data,

@@ -14,7 +14,7 @@ import Animated, {
 import { colors, spacing } from "../theme"
 import { Card } from "./Card"
 import { Toggle } from "./Toggle"
-import { updateIsSelected } from "../store"
+import { updateIsSelected, updateProductIsSelected } from "../store"
 import { useDispatch, useSelector } from "react-redux"
 import { createSelector } from "@reduxjs/toolkit"
 import { CheckBox } from "react-native-elements"
@@ -44,7 +44,7 @@ interface AnimatedFlatListProps {
   isSearchFormVisible: boolean
 }
 
-const AnimatedFlatList: React.FC<AnimatedFlatListProps> = ({
+const ProductAnimatedFlatList: React.FC<AnimatedFlatListProps> = ({
   data,
   loading,
   isRefreshing,
@@ -78,7 +78,7 @@ const AnimatedFlatList: React.FC<AnimatedFlatListProps> = ({
                 <Text style={{flex:1}} preset="subheading" size="sm" text={item.title} />
                 {isSearchFormVisible &&
                 <CheckBox checked={item.isSelected} onPress={() => {
-                  dispatch(updateIsSelected(item.id))}
+                  dispatch(updateProductIsSelected(item.id))}
                 } /> }
               </View>
             }
@@ -154,7 +154,7 @@ const AnimatedFlatList: React.FC<AnimatedFlatListProps> = ({
   )
 }
 
-export default AnimatedFlatList
+export default ProductAnimatedFlatList
 
 const $contentContainer: ViewStyle = {
   flex: 1,

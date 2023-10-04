@@ -6,6 +6,10 @@ import DrawerLNL from "./DrawerLNL"
 import { DrawerStackNavigator } from "./DrawerStackNavigator"
 import ProductScreen from "../screens/LNL/ProductScreen"
 import { createStackNavigator } from "@react-navigation/stack"
+import ProductDetail from "../screens/LNL/ProductDetail"
+import ProductAdd from "../screens/LNL/ProductAdd"
+import AssetAdd from "../screens/LNL/AssetAdd"
+import AssetDetail from "../screens/LNL/AssetDetail"
 
 const Drawer = createDrawerNavigator()
 const Stack = createStackNavigator()
@@ -39,6 +43,8 @@ const DrawerNavigator = () => {
                         }}
        />)) : null
       ))}
+
+
     </Drawer.Navigator>
   )
 }

@@ -1,26 +1,29 @@
-import { createSlice } from '@reduxjs/toolkit';
-import type { PayloadAction } from '@reduxjs/toolkit'
+import { createSlice } from "@reduxjs/toolkit"
+import type { PayloadAction } from "@reduxjs/toolkit"
+import { fetchAssets } from "../actions"
 
 interface Asset {
+
   id: number;
-  title: string;
-  image: string;
-  price: number;
-  qrcode: string;
-  isSelected: boolean;
+  name: string;
+  updatedTime?: string;
+  epc: string;
+  qrCode: string;
+  image?: string;
+  detailedName: string;
 
 }
 
 const initialState = {
   assets: [],
-  searchTerm: '',
+  searchTerm: "",
 } as {
   assets: Asset[];
   searchTerm: string;
 }
 
 const assetsSlice = createSlice({
-  name: 'asset',
+  name: "asset",
   initialState,
   reducers: {
     addAsset(state, action: PayloadAction<Asset>) {
@@ -41,16 +44,39 @@ const assetsSlice = createSlice({
       state.assets.splice(index, 1)
     },
     updateAssetIsSelected(state, action: PayloadAction<number>) {
-      const selectedItem = state.assets.find(asset => asset.id === action.payload);
+      const selectedItem = state.assets.find(asset => asset.id === action.payload)
       if (selectedItem) {
-        selectedItem.isSelected = !selectedItem.isSelected;
+        selectedItem.isSelected = !selectedItem.isSelected
       }
     },
+  },
+  extraReducers: (builder) => {
+    builder.addCase(fetchAssets.fulfilled, (state, action) => {
 
 
+      state.assets = action.payload.results.map((item) => ({
 
-  }
+        id: item.id,
+        name: item.name,
+        image: item.image,
+        updatedTime: item.updatedTime,
+        epc: item.epc,
+        qrCode: item.qrCode,
+        detailedName: item.detailedName,
+        serialNo: item.serialNo,
+        isSelected: false,
+
+      }))
+    })
+  },
 })
 
-export const { addAsset, changeAssetSearchTerm, resetAssets, removeAsset,editAsset,updateAssetIsSelected } = assetsSlice.actions;
-export const assetsReducer = assetsSlice.reducer;
+export const {
+  addAsset,
+  changeAssetSearchTerm,
+  resetAssets,
+  removeAsset,
+  editAsset,
+  updateAssetIsSelected,
+} = assetsSlice.actions
+export const assetsReducer = assetsSlice.reducer
