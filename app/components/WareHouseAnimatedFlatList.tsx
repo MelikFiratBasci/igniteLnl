@@ -13,18 +13,27 @@ import Animated, {
 } from "react-native-reanimated"
 import { colors, spacing } from "../theme"
 import { Card } from "./Card"
-import { updateProductIsSelected } from "../store"
+import { updateWareHouseIsSelected } from "../store"
 import { useDispatch,  } from "react-redux"
 import { CheckBox } from "react-native-elements"
+import { StorageUnit } from "../store/slices/storageUnitsSlice"
+import { FontAwesome5 } from '@expo/vector-icons';
 
 
 interface Item {
-  id: number
-  title: string
-  image?: string
-  price?: number
-  qrcode?: string
-  isSelected?: boolean
+  id: number;
+  name: string;
+  code: string;
+  type: string;
+  description: string;
+  category: string;
+  address: string;
+  capacity: number;
+  manager: string;
+  createdTime: Date;
+  updatedTime: Date;
+  storageUnits: StorageUnit[];
+  isSelected: boolean;
 }
 
 
@@ -41,7 +50,7 @@ interface AnimatedFlatListProps {
   isSearchFormVisible: boolean
 }
 
-const ProductAnimatedFlatList: React.FC<AnimatedFlatListProps> = ({
+const WareHouseAnimatedFlatList: React.FC<AnimatedFlatListProps> = ({
   data,
   loading,
   isRefreshing,
@@ -59,53 +68,31 @@ const ProductAnimatedFlatList: React.FC<AnimatedFlatListProps> = ({
 
 
   const renderItem = ({ item }) => <TouchableOpacity
-          activeOpacity={1}
-          delayPressIn={100}
-          delayLongPress={1}
-          onPress={()=> {
-            onItemPress(item)
+    activeOpacity={1}
+    delayPressIn={100}
+    delayLongPress={1}
+    onPress={()=> {
+      onItemPress(item)
 
-          }}
+    }}
 
         >
-          <Card
-            HeadingComponent={
-              <View style={{ flexDirection: "row", alignItems: "center", justifyContent: "space-between", gap: spacing.md}}>
-                <Text style={{flex:1}} preset="subheading" size="sm" text={item.title} />
+          <View style={{ flex:1, elevation:1, margin:spacing.xxxs, backgroundColor:"white", borderRadius: spacing.md }}>
+
+              <View style={{ flexDirection: "row", alignItems: "center", justifyContent: "space-between", gap: spacing.md,margin:spacing.md}}>
+                <Text preset="subheading" size="sm" style={{fontWeight:"700", color: colors.textDim}} text={item.name} />
+                <FontAwesome5 name="warehouse" size={24} color={colors.textDim} />
                 {isSearchFormVisible &&
                 <CheckBox checked={item.isSelected} onPress={() => {
-                  dispatch(updateProductIsSelected(item.id))}
+                  dispatch(updateWareHouseIsSelected(item.id))}
                 } /> }
               </View>
-            }
-            heading={item.title}
-            ContentComponent={
-              <View style={{ gap: 16}}>
-                {item.image && (
-                  <View
-                    style={{
-                      flexDirection: "row",
-                      alignItems: "center",
-                      justifyContent: "space-evenly",
-                    }}
-                  >
-                    <Image
-                      source={{ uri: item.image}}
-                      resizeMode="contain"
-                      style={{ width: 100, height: 100, borderRadius: 16, alignSelf:"center" }}
-                    />
-                  </View>
-                )}
-                {item.price && (
-                  <Text size="lg" preset="subheading" text={"$" + item.price} />
-                )}
 
-              </View>
-            }
-            FooterComponent={item.qrcode && (
-              <Text preset="formHelper" text={"Product Code: " + item.qrcode} />
-            )}
-          />
+
+
+          </View>
+
+
         </TouchableOpacity>
 
 
@@ -129,6 +116,7 @@ const ProductAnimatedFlatList: React.FC<AnimatedFlatListProps> = ({
             text={data.length + ` ${headerText}`}
           />
 
+
           <Animated.FlatList
             contentContainerStyle={{
               gap: 12,
@@ -150,7 +138,7 @@ const ProductAnimatedFlatList: React.FC<AnimatedFlatListProps> = ({
   )
 }
 
-export default ProductAnimatedFlatList
+export default WareHouseAnimatedFlatList
 
 const $contentContainer: ViewStyle = {
   flex: 1,

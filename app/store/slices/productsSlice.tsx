@@ -1,7 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit'
 
-interface Product {
+export interface Product {
   id: number;
   title: string;
   image: string;
@@ -46,7 +46,6 @@ const productsSlice = createSlice({
          selectedItem.isSelected = !selectedItem.isSelected;
        }
     },
-
 
 
   }

@@ -9,6 +9,7 @@ import WarningScreen from "../screens/LNL/WarningScreen"
 import AssetScreen from "../screens/LNL/AssetScreen"
 import TestOneScreen from "../screens/LNL/TestOneScreen"
 import TestTwoScreen from "../screens/LNL/TestTwoScreen"
+import WareHouseScreen from "../screens/LNL/WareHouseScreen"
 
 
 export const constant = {
@@ -29,6 +30,7 @@ export const ScreensArray = [
       { route: 'AssetScreen', label: "Assets", type: FontAwesome5, icon: 'box', component: AssetScreen},
     ]},
   { route: 'Departments', label: "Departments", type: FontAwesome, icon: 'users', component: DepartmentScreen},
+  { route: 'WareHouseScreen', label: "Ware Houses", type: FontAwesome, icon: 'users', component: WareHouseScreen},
   { route: 'Warnings', label: "Warnings", type: Entypo, icon: 'warning', component: WarningScreen, subMenu: [
       { route: 'TestOne',label: "TestOne", type: FontAwesome, icon: 'product-hunt', component: TestOneScreen },
       { route: 'TestTwo', label: "TestTwo", type: FontAwesome5, icon: 'box', component: TestTwoScreen},

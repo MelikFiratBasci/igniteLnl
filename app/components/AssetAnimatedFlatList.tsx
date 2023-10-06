@@ -1,11 +1,11 @@
-import React, { useCallback, useState } from "react"
+import React, { useCallback } from "react"
 import {
   View,
   TouchableOpacity,
   ViewStyle,
   RefreshControl,
   ActivityIndicator,
-  Image, TextInput,
+  Image,
 } from "react-native"
 import { Text } from "./Text"
 import Animated, {
@@ -13,10 +13,8 @@ import Animated, {
 } from "react-native-reanimated"
 import { colors, spacing } from "../theme"
 import { Card } from "./Card"
-import { Toggle } from "./Toggle"
-import { updateAssetIsSelected, updateIsSelected } from "../store"
-import { useDispatch, useSelector } from "react-redux"
-import { createSelector } from "@reduxjs/toolkit"
+import { updateAssetIsSelected } from "../store"
+import { useDispatch } from "react-redux"
 import { CheckBox } from "react-native-elements"
 
 interface Item {

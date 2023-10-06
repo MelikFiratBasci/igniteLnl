@@ -27,6 +27,8 @@ import ProductDetail from "../screens/LNL/ProductDetail"
 import AssetAdd from "../screens/LNL/AssetAdd"
 import AssetDetail from "../screens/LNL/AssetDetail"
 import AssetScreen from "../screens/LNL/AssetScreen"
+import WareHouseAdd from "../screens/LNL/WareHouseAdd"
+import WareHouseDetail from "../screens/LNL/WareHouseDetail"
 
 
 
@@ -100,6 +102,8 @@ const AppStack = observer(function AppStack() {
       <Stack.Screen name="ProductAdd" component={ProductAdd} />
       <Stack.Screen name="AssetAdd" component={AssetAdd} />
       <Stack.Screen name="AssetDetail" component={AssetDetail} />
+      <Stack.Screen name="WareHouseAdd" component={WareHouseAdd} />
+      <Stack.Screen name="WareHouseDetail" component={WareHouseDetail} />
     </Stack.Navigator>
   )
 })
