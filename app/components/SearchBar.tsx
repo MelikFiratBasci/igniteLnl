@@ -5,7 +5,7 @@ import Scanner from "./Scanner"
 import { colors, spacing } from "../theme"
 
 
-const SearchBar = ({ onSearch, searchTerm }) => { // onSearch prop'unu doğru şekilde alın
+const SearchBar = ({ onSearch, searchTerm, qrFeature, placeholder }) => { // onSearch prop'unu doğru şekilde alın
 
   // Aramak yapmak istediğin her yere bu component'i koyabilirsin. Sadece aramayı yapacağın componente özgü olan propsları buraya göndermen yeterli olacaktır.
 
@@ -22,16 +22,17 @@ const SearchBar = ({ onSearch, searchTerm }) => { // onSearch prop'unu doğru ş
         <EvilIcons name="search" size={32} color="black" />
         <TextInput
           style={{ flex: 1 }}
-          placeholder="Search by name or QR code"
+          placeholder={placeholder}
           value={searchTerm}
           onChangeText={(text) => {
             onSearch(text)
 
           }}
         />
+        {qrFeature && (
         <TouchableOpacity onPress={openScanner}>
           <MaterialIcons name="qr-code-scanner" size={32} color="black" />
-        </TouchableOpacity>
+        </TouchableOpacity> ) }
       </View>
 
       {scannerVisible && <Scanner search={true} setModalVisible={setScannerVisible} visible={scannerVisible} />}

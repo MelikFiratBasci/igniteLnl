@@ -46,10 +46,11 @@ export const lnl = {
   5: ['#5a8e82', '#aad9c4'],
   6: ['#8b4e87', '#d597d1'],
   7: ['#64c446', '#97d66a'],
+  8: ['#F4F3F4'], // new white
   9: ['#c55d57', '#e5817b'],
   10: ['#5644ef'],
 
-  8: ['#F4F3F4'] // new white
+
   //8: ['#fdfdfe'] // new white old
   // 8: ['#eeedeb'] // new white
 //f409ee
@@ -62,6 +63,7 @@ export const themeColors = {
   warning:    lnl[3][0],
   error:      lnl[9][0],
   info:       lnl[1][2],
+
   black:      lnl[0][1],
   white:      lnl[8][0],
   primaryAlt: lnl[2][1],

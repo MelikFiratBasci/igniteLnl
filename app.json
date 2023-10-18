@@ -2,6 +2,14 @@
   "name": "PizzaApp",
   "displayName": "PizzaApp",
   "expo": {
+    "plugins": [
+      [
+        "expo-location",
+        {
+          "locationAlwaysAndWhenInUsePermission": "Allow $(PizzaApp) to use your location."
+        }
+      ]
+    ],
     "name": "PizzaApp",
     "slug": "PizzaApp",
     "scheme": "pizzaapp",

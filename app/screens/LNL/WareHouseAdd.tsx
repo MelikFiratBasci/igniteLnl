@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React, { useEffect, useState } from "react"
 import {
   View,
   Image,
@@ -15,15 +15,18 @@ import { colors, spacing, typography } from "../../theme"
 import { useNavigation } from "@react-navigation/native"
 import { MaterialIcons } from "@expo/vector-icons"
 import { MaterialCommunityIcons } from "@expo/vector-icons"
+import MapView, { Marker } from "react-native-maps"
 import * as ImagePicker from "expo-image-picker"
 import { useDispatch } from "react-redux"
 import { addWareHouse } from "../../store/index"
 import Toast from "react-native-toast-message"
 import * as Permissions from "expo-permissions"
 import { StorageUnit } from "../../store/slices/storageUnitsSlice"
+import * as Location from 'expo-location';
 
 
 const WareHouseAdd = () => {
+
 
   const navigation = useNavigation()
 
@@ -196,10 +199,11 @@ const WareHouseAdd = () => {
                   }}
                   value={barCode}
                   onChangeText={setBarCode}
-                  RightAccessory={(props) => <MaterialCommunityIcons style={{ marginRight: spacing.md }}
-                                                                     name="barcode-scan" size={24} color="black" />}
+                  RightAccessory={(props) => <MaterialCommunityIcons style={{ marginRight: spacing.md }} name="barcode-scan" size={24} color="black" />}
                 />
-                <TextField label="WareHouse Type" value={type} onChangeText={setType}></TextField>
+                <TextField                      inputWrapperStyle={{
+                  alignItems: "center",
+                }}     RightAccessory={(props) => <MaterialIcons onPress={()=>{navigation.navigate("AddAddress")}} style={{ marginRight: spacing.md }} name="add-location-alt" size={24} color="black" />} label="WareHouse Type" value={type} onChangeText={setType}></TextField>
                 <TextField label="WareHouse Description" value={description} onChangeText={setDescription}></TextField>
                 <TextField label="WareHouse Category" value={category} onChangeText={setCategory}></TextField>
                 <TextField label="WareHouse Address" value={address} onChangeText={setAddress}></TextField>
